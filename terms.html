@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pep'Jo Streams - Terms of Service</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    .glassmorphism {
+      background: rgba(245, 246, 245, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 0.75rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glassmorphism:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .hero-font { font-family: 'Lato', sans-serif; }
+    .body-font { font-family: 'Open Sans', sans-serif; }
+    .terms-section {
+      background: linear-gradient(135deg, #F5F6F5 0%, #E0E7FF 100%);
+      padding: 4rem 0;
+    }
+    .terms-content {
+      max-width: 5xl;
+      padding: 0 1rem;
+      animation: fadeIn 1s ease-in;
+    }
+    .toc-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .toc-list a {
+      color: #2E4057;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .toc-list a:hover {
+      color: #E74C3C;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 640px) {
+      .mobile-stack { flex-direction: column; }
+      .navbar-menu { display: none; }
+      .navbar-menu.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: #2E4057;
+      }
+      .terms-content { padding: 0 0.5rem; }
+      .toc-list { font-size: 0.9rem; }
+    }
+    .animate-marquee {
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+    const { createRoot } = ReactDOM;
+
+    const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <div className="flex-shrink-0">
+            <img src="images/logo.png" alt="PeP'JO Streams Logo" className="h-16 w-auto" />
+          </div>
+          <div className="hidden md:flex space-x-4">
+            <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+            <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+            <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+          </div>
+          <div className="md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+              </svg>
+            </button>
+          </div>
+          <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+            <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C]">Home</a>
+            <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C]">Rates</a>
+            <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C]">Support</a>
+          </div>
+          <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+    const TermsIntro = () => (
+      <section className="terms-section">
+        <div className="terms-content max-w-5xl mx-auto px-4">
+          <h1 className="hero-font text-5xl md:text-6xl font-bold mb-6 text-[#2E4057] drop-shadow-md">Terms and Conditions</h1>
+          <p className="body-font text-lg md:text-xl mb-6 text-[#333] leading-relaxed">
+            Effective Date: June 18, 2025<br />
+            Last Updated: June 18, 2025
+          </p>
+          <p className="body-font text-lg md:text-xl mb-6 text-[#333] leading-relaxed">
+            This website is owned and operated by <strong>Pep'Jo Streams</strong>. These Terms and Conditions (“Terms”) outline the rules and regulations for using our crypto trading platform and associated services. By accessing or using this platform, you confirm that you have read, understood, and agree to be bound by these Terms.
+          </p>
+        </div>
+      </section>
+    );
+
+    const TermsSection = () => (
+      <section className="terms-section">
+        <div className="terms-content max-w-5xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Table of Contents */}
+            <aside className="w-full md:w-1/4 mb-6 md:mb-0">
+              <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">Table of Contents</h2>
+              <ul className="toc-list space-y-2">
+                <li><a href="#overview">1. Overview of Our Services</a></li>
+                <li><a href="#eligibility">2. Eligibility and Account Creation</a></li>
+                <li><a href="#risk">3. Risk Disclosure</a></li>
+                <li><a href="#responsibilities">4. Account Responsibilities</a></li>
+                <li><a href="#transactions">5. Transaction Terms</a></li>
+                <li><a href="#fees">6. Fees and Pricing</a></li>
+                <li><a href="#refunds">7. Refund Policy</a></li>
+                <li><a href="#access">8. Platform Access and Modifications</a></li>
+                <li><a href="#intellectual">9. Intellectual Property and Content</a></li>
+                <li><a href="#prohibited">10. Prohibited Activities</a></li>
+                <li><a href="#indemnity">11. Indemnity</a></li>
+                <li><a href="#liability">12. Limitation of Liability</a></li>
+                <li><a href="#privacy">13. Privacy & Security</a></li>
+                <li><a href="#termination">14. Termination</a></li>
+                <li><a href="#governing">15. Governing Law</a></li>
+                <li><a href="#changes">16. Changes to Terms</a></li>
+                <li><a href="#contact">17. Contact Us</a></li>
+              </ul>
+            </aside>
+
+            {/* Terms Content */}
+            <div className="w-full md:w-3/4 space-y-6">
+              <div id="overview" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">1. Overview of Our Services</h2>
+                <p className="body-font text-[#333]">
+                  Pep'Jo Streams provides access to cryptocurrency services including:<br />
+                  - Buying, selling, and swapping crypto assets<br />
+                  - Real-time price tracking and insights<br />
+                  - Gift card redemption and wallet services<br />
+                  - Secure storage and quick withdrawals<br />
+                  - Access to digital assets, support, and rewards<br />
+                  All activities are governed by Nigerian laws and international compliance standards.
+                </p>
+              </div>
+
+              <div id="eligibility" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">2. Eligibility and Account Creation</h2>
+                <p className="body-font text-[#333]">
+                  To use our platform, you must:<br />
+                  - Be at least <strong>18 years old</strong><br />
+                  - Have the legal capacity to agree to our Terms<br />
+                  - Reside in a country where crypto use is not restricted<br />
+                  - Provide accurate and complete registration info<br />
+                  - Maintain security of your account login credentials
+                </p>
+              </div>
+
+              <div id="risk" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">3. Risk Disclosure</h2>
+                <p className="body-font text-[#333]">
+                  Cryptocurrency trading is volatile and carries risk. Prices can rise or fall suddenly, and you may lose funds.<br />
+                  Pep'Jo Streams does not offer financial or investment advice. By using our services, you accept the risks and agree to trade responsibly.
+                </p>
+              </div>
+
+              <div id="responsibilities" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">4. Account Responsibilities</h2>
+                <p className="body-font text-[#333]">
+                  You are responsible for:<br />
+                  - All activities under your account<br />
+                  - Keeping your credentials secure<br />
+                  - Informing us if your account is compromised<br />
+                  - Avoiding suspicious or illegal transactions<br />
+                  We may suspend or terminate accounts involved in fraudulent or abusive behavior.
+                </p>
+              </div>
+
+              <div id="transactions" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">5. Transaction Terms</h2>
+                <p className="body-font text-[#333]">
+                  - You are responsible for confirming all transaction details<br />
+                  - Most crypto transactions are <strong>non-reversible</strong><br />
+                  - Network delays, market volatility, or user errors may affect your transactions<br />
+                  Pep'Jo Streams is not liable for losses caused by third-party delays, incorrect wallet addresses, or failed confirmations.
+                </p>
+              </div>
+
+              <div id="fees" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">6. Fees and Pricing</h2>
+                <p className="body-font text-[#333]">
+                  All fees—including for trading, transfers, and services—are displayed on our platform or at checkout.<br />
+                  We reserve the right to update our pricing or add new fees at any time. You will always see current rates before finalizing any transaction.<br />
+                  In case of errors in pricing, we reserve the right to correct and notify users accordingly.
+                </p>
+              </div>
+
+              <div id="refunds" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">7. Refund Policy</h2>
+                <p className="body-font text-[#333]">
+                  Cryptocurrency transactions are generally <strong>non-refundable</strong>.<br />
+                  However, if an error originates from our platform or a technical failure prevents proper completion, we will investigate and offer a resolution, which may include a refund to your original payment method.<br />
+                  Refund eligibility may vary based on transaction type and timing.
+                </p>
+              </div>
+
+              <div id="access" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">8. Platform Access and Modifications</h2>
+                <p className="body-font text-[#333]">
+                  We may update or modify features of our platform without prior notice.<br />
+                  Temporary downtimes may occur due to maintenance, upgrades, or external factors. We are not liable for service unavailability due to factors beyond our control (e.g., internet outages, regulatory restrictions, etc.).<br />
+                  Continued use of the platform following any modifications constitutes acceptance of those changes.
+                </p>
+              </div>
+
+              <div id="intellectual" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">9. Intellectual Property and Content</h2>
+                <p className="body-font text-[#333]">
+                  All content on this website—including designs, graphics, logos, branding, source code, and documentation—is the intellectual property of Pep'Jo Streams or our licensors.<br />
+                  You may not copy, redistribute, or use our content for commercial purposes without express written consent.<br />
+                  By submitting content (e.g., comments or feedback), you grant us a license to use and display such content on the platform.
+                </p>
+              </div>
+
+              <div id="prohibited" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">10. Prohibited Activities</h2>
+                <p className="body-font text-[#333]">
+                  You agree not to engage in the following while using our platform:<br />
+                  - Money laundering, terrorism financing, or other criminal activity<br />
+                  - Using stolen identities or fraudulent documents<br />
+                  - Interfering with platform security or introducing malware<br />
+                  - Violating any applicable law or regulation<br />
+                  Violations may result in account suspension, legal action, and being reported to authorities.
+                </p>
+              </div>
+
+              <div id="indemnity" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">11. Indemnity</h2>
+                <p className="body-font text-[#333]">
+                  You agree to indemnify and hold harmless Pep'Jo Streams, its officers, affiliates, and employees from any claims, losses, or damages arising from your use of the platform or breach of these Terms.
+                </p>
+              </div>
+
+              <div id="liability" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">12. Limitation of Liability</h2>
+                <p className="body-font text-[#333]">
+                  Pep'Jo Streams is not liable for:<br />
+                  - Losses due to market volatility or trading decisions<br />
+                  - Unauthorized access caused by your negligence<br />
+                  - Technical failures beyond our control<br />
+                  - Any indirect, incidental, or consequential damages<br />
+                  Our liability is limited to the fullest extent permitted by law.
+                </p>
+              </div>
+
+              <div id="privacy" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">13. Privacy & Security</h2>
+                <p className="body-font text-[#333]">
+                  Your data is handled per our <a href="privacy.html" className="text-[#E74C3C] hover:underline">Privacy Policy</a>.<br />
+                  We use encryption and security measures, but no system is entirely secure. You must enable <strong>two-factor authentication (2FA)</strong> to enhance account safety.
+                </p>
+              </div>
+
+              <div id="termination" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">14. Termination</h2>
+                <p className="body-font text-[#333]">
+                  We may terminate or suspend your account for violations of these Terms or suspicious activity.<br />
+                  You can close your account, subject to settling any outstanding transactions or balances.
+                </p>
+              </div>
+
+              <div id="governing" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">15. Governing Law</h2>
+                <p className="body-font text-[#333]">
+                  These Terms are governed by the laws of the <strong>Federal Republic of Nigeria</strong>, without regard to conflict of law principles.
+                </p>
+              </div>
+
+              <div id="changes" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">16. Changes to Terms</h2>
+                <p className="body-font text-[#333]">
+                  We may update these Terms with notice via email or platform updates. Continued use after changes indicates acceptance of the new Terms.
+                </p>
+              </div>
+
+              <div id="contact" className="glassmorphism p-6">
+                <h2 className="hero-font text-2xl font-bold mb-4 text-[#2E4057]">17. Contact Us</h2>
+                <p className="body-font text-[#333]">
+                  For questions, contact us at:<br />
+                  - Email: <a href="mailto:pepjostreams@gmail.com" className="text-[#E74C3C] hover:underline">pepjostreams@gmail.com</a><br />
+                  - Phone: <strong>+2349067099262</strong><br />
+                  Download a PDF version <a href="#" className="text-[#E74C3C] hover:underline">here</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+    const Footer = () => (
+      <footer className="bg-[#2E4057] text-[#F5F6F5] py-8 mt-20">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="space-x-4 mb-4">
+            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+            <a href="terms.html" className="hover:text-[#E74C3C]">Terms</a>
+            <a href="privacy.html" className="hover:text-[#E74C3C]">Privacy</a>
+            <a href="contact.html" className="hover:text-[#E74C3C]">Contact</a>
+          </div>
+          <div className="flex justify-center space-x-4 mb-4">
+            <a href="https://instagram.com/pepjostreams" target="_blank" className="hover:text-[#E74C3C]" aria-label="Instagram">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2.2c3.1 0 3.4 0 4.6.1 1.2.1 2.1.3 2.6.6.7.3 1.3.8 1.6 1.6.3.5.5 1.4.6 2.6.1 1.2.1 1.5.1 4.6s0 3.4-.1 4.6c-.1 1.2-.3 2.1-.6 2.6-.3.7-.8 1.3-1.6 1.6-.5.3-1.4.5-2.6.6-1.2.1-1.5.1-4.6.1s-3.4 0-4.6-.1c-1.2-.1-2.1-.3-2.6-.6-.7-.3-1.3-.8-1.6-1.6-.3-.5-.5-1.4-.6-2.6C2.2 15.4 2.2 15.1 2.2 12s0-3.4.1-4.6c.1-1.2.3-2.1.6-2.6.3-.7.8-1.3 1.6-1.6.5-.3 1.4-.5 2.6-.6 1.2-.1 1.5-.1 4.6-.1M12 0C8.7 0 8.3 0 7 .1 5.7.1 4.6.3 3.7.6 2.6 1 1.7 1.7 1.1 2.7.7 3.6.5 4.7.4 6 .3 7.3.3 7.7.3 12s0 4.7.1 6c.1 1.3.3 2.4.6 3.3.4 1 1.1 1.8 2.1 2.3.9.4 2 .6 3.3.7 1.3.1 1.7.1 6 .1s4.7 0 6-.1c1.3-.1 2.4-.3 3.3-.7 1-.5 1.8-1.3 2.3-2.3.4-.9.6-2 .7-3.3.1-1.3.1-1.7.1-6s0-4.7-.1-6c-.1-1.3-.3-2.4-.7-3.3-.5-1-1.3-1.8-2.3-2.3-.9-.4-2-.6-3.3-.7C16.7.1 16.3.1 12 .1 12 0 12 0 12 0z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/+2349067099262" target="_blank" className="hover:text-[#E74C3C]" aria-label="WhatsApp">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.372 0 12c0 2.096.543 4.091 1.58 5.86L0 24l6.26-1.646A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.687 17.037c-.253.71-1.43 1.308-1.994 1.384-.514.07-1.152.098-1.849-.13-3.2-1.024-5.269-4.044-5.436-4.233-.168-.188-1.3-1.735-1.3-3.312 0-1.577.84-2.347 1.14-2.664.252-.27.672-.338.891-.338.222 0 .444.002.637.012.204.012.472-.078.738.562.293.706.994 2.44 1.078 2.619.084.178.139.388.028.626-.11.239-.164.388-.326.595-.162.208-.342.465-.488.625-.145.161-.295.342-.126.653.168.31.747 1.225 1.6 1.974 1.102.982 2.034 1.287 2.346 1.438.313.15.492.141.675-.084.183-.226.772-.9.979-1.211.207-.312.42-.258.707-.155.288.103 1.828.863 2.145 1.022.317.158.525.237.604.37.078.133.078.774-.177 1.504z"/>
+              </svg>
+            </a>
+          </div>
+          <p className="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => (
+      <div>
+        <Navbar />
+        <TermsIntro />
+        <TermsSection />
+        <Footer />
+      </div>
+    );
+
+    createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
