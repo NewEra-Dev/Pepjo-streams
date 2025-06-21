@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pep'Jo Streams</title>
+  <title>Pep'Jo Streams - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -15,13 +15,44 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
-    .hero-font { font-family: 'Lato', sans-serif; }
-    .body-font { font-family: 'Open Sans', sans-serif; }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1634263207988-67e2e8e5d81c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      height: 100vh;
+      position: relative;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(46, 64, 87, 0.7); /* Dark overlay */
+    }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      color: #F5F6F5;
+    }
+    .hero-text { font-family: 'Lato', sans-serif; }
+    .body-text { font-family: 'Open Sans', sans-serif; }
+    .animate-marquee {
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .overview-icon {
+      font-size: 2rem;
+      color: #E74C3C;
+    }
     @media (max-width: 640px) {
       .mobile-stack { flex-direction: column; }
       .navbar-menu { display: none; }
       .navbar-menu.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: #2E4057; }
+      .hero { height: 70vh; }
       .hero-text { font-size: 2rem; }
+      .overview-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -32,50 +63,47 @@
     const { createRoot } = ReactDOM;
 
     const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0">
-            <img src="images/logo.png" alt="PeP'JO Streams Logo" className="h-16 w-auto" />
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+              </div>
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+              </div>
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+              </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+            </div>
           </div>
-          <div className="hidden md:flex space-x-4">
-            <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
-          </div>
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-              </svg>
-            </button>
-          </div>
-          <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
-            <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C]">About</a>
-          </div>
-          <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
-        </div>
-      </div>
-    </nav>
-  );
-};
+        </nav>
+      );
+    };
 
     const Hero = () => (
-      <section id="home" className="min-h-screen flex items-center justify-center bg-[#F5F6F5] text-[#2E4057]">
-        <div className="text-center max-w-5xl px-4">
-          <h1 className="hero-font text-5xl md:text-6xl font-bold mb-4">Pep'Jo Streams - Secure Global Trading</h1>
-          <p className="body-font text-lg md:text-xl mb-6">Trade gift cards (Amazon, iTunes, Tesco) and cryptocurrencies (BTC, ETH, USDT) with top rates. Join 15,000+ traders worldwide.</p>
-          <div className="space-x-4">
-            <a href="https://wa.me/+2349067099262" className="bg-[#2E4057] text-[#F5F6F5] px-6 py-3 rounded-full hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell Now</a>
-            <a href="https://wa.me/+2349067099262" className="bg-[#F5F6F5] text-[#2E4057] px-6 py-3 rounded-full border border-[#2E4057] hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy Now</a>
-          </div>
-          <p className="body-font mt-4 text-[#2E4057]">Live Rates: Amazon N1,100/$1 | BTC N50M | ETH N3M</p>
+      <section id="home" className="hero">
+        <div className="hero-overlay"></div>
+        <div className="hero-content text-center flex flex-col items-center justify-center h-full px-4">
+          <h1 className="hero-text text-5xl md:text-7xl font-bold mb-4">Welcome to Pep'Jo Streams</h1>
+          <p className="body-text text-lg md:text-xl mb-6 max-w-2xl">Your trusted platform for real-time crypto and gift card rates, trends, and secure transactions. Join 15,000+ traders worldwide.</p>
+          <a href="rates.html" className="bg-[#E74C3C] text-[#F5F6F5] px-6 py-3 rounded-lg hover:bg-[#C0392B] transition duration-300">Get Started</a>
         </div>
       </section>
     );
@@ -97,22 +125,47 @@
       }, []);
 
       return (
-        <div className="w-full bg-[#2E4057] py-2 overflow-hidden">
-          <div className="glassmorphism p-2 animate-marquee whitespace-nowrap">
+        <div className="w-full bg-[#2E4057] py-2 overflow-hidden mt-16">
+          <div className="glassmorphism p-2 animate-marquee whitespace-nowrap text-[#F5F6F5]">
             {trades.map((trade, index) => (
-              <span key={index} className="text-[#F5F6F5] mx-4">{trade}</span>
+              <span key={index} className="mx-4">{trade}</span>
             ))}
           </div>
         </div>
       );
     };
 
+    const Overview = () => (
+      <section className="py-12 bg-[#F5F6F5] text-[#2E4057]">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="body-text text-3xl font-bold mb-8">Why Choose Pep'Jo Streams?</h2>
+          <div className="overview-grid grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6">
+              <div className="overview-icon mb-4">💰</div>
+              <h3 className="body-text text-xl font-semibold mb-2">Live Rates</h3>
+              <p className="text-sm">Get the latest prices for crypto and gift cards updated in real-time.</p>
+            </div>
+            <div className="p-6">
+              <div className="overview-icon mb-4">📈</div>
+              <h3 className="body-text text-xl font-semibold mb-2">Market Trends</h3>
+              <p className="text-sm">Track 7-day trends to make informed trading decisions.</p>
+            </div>
+            <div className="p-6">
+              <div className="overview-icon mb-4">🤝</div>
+              <h3 className="body-text text-xl font-semibold mb-2">24/7 Support</h3>
+              <p className="text-sm">Our team is here to assist you anytime via WhatsApp.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
     const RateTable = ({ openModal }) => {
       const [currency, setCurrency] = useState('NGN');
       return (
         <div className="max-w-7xl mx-auto px-4 py-12 bg-[#F5F6F5] text-[#2E4057]">
-          <h2 className="body-font text-3xl font-bold text-center mb-6">Real-Time Trading Rates</h2>
-          <p className="body-font text-center mb-4">Competitive rates updated hourly. Trade with 99% security.</p>
+          <h2 className="body-text text-3xl font-bold text-center mb-6">Real-Time Trading Rates</h2>
+          <p className="body-text text-center mb-4">Competitive rates updated hourly. Trade with 99% security.</p>
           <div className="bg-[#2E4057] text-[#F5F6F5] p-2 rounded-t-lg">
             <div className="grid grid-cols-4 gap-4 p-2">
               <span>Asset</span><span>Sell Rate</span><span>Buy Rate</span><span>Action</span>
@@ -150,7 +203,7 @@
       return (
         <div className="fixed inset-0 bg-[#2E4057] bg-opacity-70 flex items-center justify-center z-50">
           <div className="glassmorphism p-6 rounded-lg border-2 border-[#F5F6F5] w-11/12 md:w-2/3 max-w-xl">
-            <h3 className="body-font text-2xl font-bold text-[#F5F6F5] mb-4">Rate Comparison</h3>
+            <h3 className="body-text text-2xl font-bold text-[#F5F6F5] mb-4">Rate Comparison</h3>
             <table className="w-full text-[#F5F6F5]">
               <thead>
                 <tr>
@@ -174,7 +227,7 @@
 
     const HowItWorks = () => (
       <div className="max-w-7xl mx-auto px-4 py-12 bg-[#2E4057] text-[#F5F6F5]">
-        <h2 className="body-font text-3xl font-bold text-center mb-6">How PeP'JO Streams Works</h2>
+        <h2 className="body-text text-3xl font-bold text-center mb-6">How Pep'Jo Streams Works</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="glassmorphism p-4 text-center">
             <h3 className="font-bold">Step 1: Register</h3>
@@ -198,7 +251,7 @@
 
     const Testimonials = () => (
       <div className="max-w-7xl mx-auto px-4 py-12 bg-[#F5F6F5] text-[#2E4057]">
-        <h2 className="body-font text-3xl font-bold text-center mb-6">Trusted by Traders</h2>
+        <h2 className="body-text text-3xl font-bold text-center mb-6">Trusted by Traders</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="glassmorphism p-4">
             <p className="italic">"I've tried several crypto transaction services, and Pep'jo Streams stands out as the best. The transaction is straightforward and transparent. Highly recommend their services." - Tofunmi, Osun</p>
@@ -218,7 +271,7 @@
 
     const TrustSignals = () => (
       <div className="max-w-7xl mx-auto px-4 py-12 bg-[#2E4057] text-[#F5F6F5] text-center">
-        <h2 className="body-font text-3xl font-bold mb-6">Our Credibility</h2>
+        <h2 className="body-text text-3xl font-bold mb-6">Our Credibility</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <h3 className="font-bold text-2xl">15,000+</h3>
@@ -238,9 +291,9 @@
 
     const RateComparisonSection = () => (
       <div className="max-w-7xl mx-auto px-4 py-12 bg-[#F5F6F5] text-[#2E4057] text-center">
-        <h2 className="body-font text-3xl font-bold mb-6">Beat the Market</h2>
+        <h2 className="body-text text-3xl font-bold mb-6">Beat the Market</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-          <div className="glassmorphism p-4">PeP'JO Streams Amazon: N1100/$1</div>
+          <div className="glassmorphism p-4">Pep'Jo Streams Amazon: N1100/$1</div>
           <div className="glassmorphism p-4">Competitor A: N1050</div>
           <div className="glassmorphism p-4">Competitor B: N1000</div>
         </div>
@@ -282,6 +335,7 @@
           <Navbar />
           <Hero />
           <LiveTradeTicker />
+          <Overview />
           <RateTable openModal={() => setIsModalOpen(true)} />
           <RateComparisonModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
           <HowItWorks />
@@ -295,13 +349,5 @@
 
     createRoot(document.getElementById('root')).render(<App />);
   </script>
-  <style>
-    .animate-marquee {
-      animation: marquee 15s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-  </style>
+</body>
 </html>
