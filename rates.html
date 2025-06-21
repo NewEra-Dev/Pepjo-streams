@@ -85,7 +85,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
+    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">
@@ -108,7 +108,11 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
-          <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu absolute top-16 left-0 w-full bg-[#2E4057] transition-all duration-300 ease-in-out ${isOpen ? 'block' : 'hidden'}`}>
+          <div
+            className={`md:hidden navbar-menu absolute top-16 left-0 w-full bg-[#2E4057] z-40 transition-all duration-300 ease-in-out ${
+              isOpen ? 'block' : 'hidden'
+            }`}
+          >
             <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
             <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
             <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
@@ -120,7 +124,6 @@ const Navbar = () => {
     </nav>
   );
 };
-
     const Hero = () => (
       <section id="rates" className="min-h-screen flex items-center justify-center bg-[#F5F6F5] text-[#2E4057]">
         <div className="text-center max-w-5xl px-4">
@@ -375,5 +378,20 @@ const Navbar = () => {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
+    @media (max-width: 640px) {
+  .navbar-menu {
+    display: none;
+  }
+  .navbar-menu {
+    padding: 1rem 0;
+  }
+  .navbar-menu a {
+    width: 100%;
+    text-align: left;
+  }
+}
+.navbar-menu {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
   </style>
 </html>
