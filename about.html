@@ -25,7 +25,7 @@
     .body-font { font-family: 'Open Sans', sans-serif; }
     .about-section {
       background: linear-gradient(135deg, #F5F6F5 0%, #E5E7EB 100%);
-      padding: 4rem 0;
+      padding: 4rem 1rem;
       animation: fadeIn 1s ease-in;
     }
     .timeline-item {
@@ -74,15 +74,14 @@
       .hero-font.text-4xl { font-size: 2rem; }
       .hero-font.text-3xl { font-size: 1.5rem; }
       .body-font.text-lg { font-size: 1rem; }
-      .about-section { padding: 2rem 0; }
-      .team-image { width: 100%; height: 200px; }
+      .about-section { padding: 2rem 1rem; }
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useEffect } = React;
     const { createRoot } = ReactDOM;
 
     const Navbar = () => {
@@ -120,59 +119,63 @@
       );
     };
 
-    const AboutSection = () => (
-      <section className="about-section pt-24">
-        <div className="max-w-5xl mx-auto px-4 space-y-8">
-          <div className="glassmorphism p-6">
-            <h1 className="hero-font text-4xl md:text-5xl font-bold text-[#2E4057] mb-4">Our Story</h1>
-            <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-              alt="Pep'Jo Streams Founder Odunayo Oluwaseyi Joseph" 
-              className="team-image w-full h-64 object-cover rounded-lg mb-4"
-            />
-            <p className="body-font text-[#333] text-lg leading-relaxed">
-              Pep'Jo Streams was founded in 2015 by Odunayo Oluwaseyi Joseph, a passionate innovator who envisioned a simpler, safer, and smarter way for everyday people to engage with digital finance. What began as a small initiative has grown into a full-fledged platform where users confidently trade cryptocurrency, redeem gift cards, and explore digital assets—all under one roof.
-            </p>
-          </div>
+    const AboutSection = () => {
+      useEffect(() => window.scrollTo(0, 0), []);
 
-          <div className="glassmorphism p-6">
-            <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Mission</h2>
-            <p className="body-font text-[#333] text-lg leading-relaxed">
-              Our mission is to empower everyone with easy access to reliable digital trading services. At Pep'Jo Streams, we break down the technical barriers and provide users with the tools and guidance they need to buy, sell, and learn—safely and efficiently.
-            </p>
-          </div>
+      return (
+        <section className="about-section pt-24">
+          <div className="max-w-5xl mx-auto px-4 space-y-8">
+            <div className="glassmorphism p-6">
+              <h1 className="hero-font text-4xl md:text-5xl font-bold text-[#2E4057] mb-4">Our Story</h1>
+              <img 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                alt="Pep'Jo Streams Founder" 
+                className="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <p className="body-font text-[#333] text-lg leading-relaxed">
+                Pep'Jo Streams was founded in 2015 by Odunayo Oluwaseyi Joseph, a passionate innovator who envisioned a simpler, safer, and smarter way for everyday people to engage with digital finance. What began as a small initiative has grown into a full-fledged platform where users confidently trade cryptocurrency, redeem gift cards, and explore digital assets—all under one roof.
+              </p>
+            </div>
 
-          <div className="glassmorphism p-6">
-            <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Vision</h2>
-            <p className="body-font text-[#333] text-lg leading-relaxed">
-              We envision a world where digital transactions are second nature—secure, fast, and inclusive. Our long-term goal is to be Africa’s most trusted crypto and gift card trading platform, known for excellence, integrity, and user empowerment.
-            </p>
-          </div>
+            <div className="glassmorphism p-6">
+              <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Mission</h2>
+              <p className="body-font text-[#333] text-lg leading-relaxed">
+                Our mission is to empower everyone with easy access to reliable digital trading services. At Pep'Jo Streams, we break down the technical barriers and provide users with the tools and guidance they need to buy, sell, and learn—safely and efficiently.
+              </p>
+            </div>
 
-          <div className="glassmorphism p-6">
-            <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Journey</h2>
-            <div className="timeline">
-              <div className="timeline-item">
-                <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2015 - Founded</h3>
-                <p className="body-font text-[#333] text-base">Pep'Jo Streams was launched by Odunayo Oluwaseyi Joseph with a vision for accessible digital trading.</p>
-              </div>
-              <div className="timeline-item">
-                <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2018 - First 1,000 Users</h3>
-                <p className="body-font text-[#333] text-base">Reached a milestone of 1,000 active traders, expanding our services to include gift cards.</p>
-              </div>
-              <div className="timeline-item">
-                <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2021 - N500M Traded</h3>
-                <p className="body-font text-[#333] text-base">Achieved over N500 million in total traded value, solidifying our reputation in the market.</p>
-              </div>
-              <div className="timeline-item">
-                <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2025 - 15,000+ Users</h3>
-                <p className="body-font text-[#333] text-base">Now serving over 15,000 users with a 98% success rate on trades.</p>
+            <div className="glassmorphism p-6">
+              <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Vision</h2>
+              <p className="body-font text-[#333] text-lg leading-relaxed">
+                We envision a world where digital transactions are second nature—secure, fast, and inclusive. Our long-term goal is to be Africa’s most trusted crypto and gift card trading platform, known for excellence, integrity, and user empowerment.
+              </p>
+            </div>
+
+            <div className="glassmorphism p-6">
+              <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Journey</h2>
+              <div className="timeline">
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2015 - Founded</h3>
+                  <p className="body-font text-[#333] text-base">Launched by Odunayo Oluwaseyi Joseph with a vision for accessible digital trading.</p>
+                </div>
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2018 - First 1,000 Users</h3>
+                  <p className="body-font text-[#333] text-base">Reached 1,000 active traders and expanded to gift card services.</p>
+                </div>
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2021 - N500M Traded</h3>
+                  <p className="body-font text-[#333] text-base">Surpassed N500 million in total traded volume.</p>
+                </div>
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2025 - 15,000+ Users</h3>
+                  <p className="body-font text-[#333] text-base">Now serving over 15,000 users with a 98% success rate.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    );
+        </section>
+      );
+    };
 
     const Footer = () => (
       <footer className="bg-[#2E4057] text-[#F5F6F5] py-8 mt-20">
@@ -183,29 +186,17 @@
             <a href="privacy.html" className="hover:text-[#E74C3C]">Privacy</a>
             <a href="contact.html" className="hover:text-[#E74C3C]">Contact</a>
           </div>
-          <div className="flex justify-center space-x-4 mb-4">
-            <a href="https://instagram.com/pepjostreams" target="_blank" className="hover:text-[#E74C3C]" aria-label="Instagram">
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2.2c3.1 0 3.4 0 4.6.1 1.2.1 2.1.3 2.6.6.7.3 1.3.8 1.6 1.6.3.5.5 1.4.6 2.6.1 1.2.1 1.5.1 4.6s0 3.4-.1 4.6c-.1 1.2-.3 2.1-.6 2.6-.3.7-.8 1.3-1.6 1.6-.5.3-1.4.5-2.6.6-1.2.1-1.5.1-4.6.1s-3.4 0-4.6-.1c-1.2-.1-2.1-.3-2.6-.6-.7-.3-1.3-.8-1.6-1.6-.3-.5-.5-1.4-.6-2.6C2.2 15.4 2.2 15.1 2.2 12s0-3.4.1-4.6c.1-1.2.3-2.1.6-2.6.3-.7.8-1.3 1.6-1.6.5-.3 1.4-.5 2.6-.6 1.2-.1 1.5-.1 4.6-.1M12 0C8.7 0 8.3 0 7 .1 5.7.1 4.6.3 3.7.6 2.6 1 1.7 1.7 1.1 2.7.7 3.6.5 4.7.4 6 .3 7.3.3 7.7.3 12s0 4.7.1 6c.1 1.3.3 2.4.6 3.3.4 1 1.1 1.8 2.1 2.3.9.4 2 .6 3.3.7 1.3.1 1.7.1 6 .1s4.7 0 6-.1c1.3-.1 2.4-.3 3.3-.7 1-.5 1.8-1.3 2.3-2.3.4-.9.6-2 .7-3.3.1-1.3.1-1.7.1-6s0-4.7-.1-6c-.1-1.3-.3-2.4-.7-3.3-.5-1-1.3-1.8-2.3-2.3-.9-.4-2-.6-3.3-.7C16.7.1 16.3.1 12 .1 12 0 12 0 12 0z"/>
-              </svg>
-            </a>
-            <a href="https://wa.me/+2349067099262" target="_blank" className="hover:text-[#E74C3C]" aria-label="WhatsApp">
-              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path d="M12 0C5.373 0 0 5.372 0 12c0 2.096.543 4.091 1.58 5.86L0 24l6.26-1.646A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.687 17.037c-.253.71-1.43 1.308-1.994 1.384-.514.07-1.152.098-1.849-.13-3.2-1.024-5.269-4.044-5.436-4.233-.168-.188-1.3-1.735-1.3-3.312 0-1.577.84-2.347 1.14-2.664.252-.27.672-.338.891-.338.222 0 .444.002.637.012.204.012.472-.078.738.562.293.706.994 2.44 1.078 2.619.084.178.139.388.028.626-.11.239-.164.388-.326.595-.162.208-.342.465-.488.625-.145.161-.295.342-.126.653.168.31.747 1.225 1.6 1.974 1.102.982 2.034 1.287 2.346 1.438.313.15.492.141.675-.084.183-.226.772-.9.979-1.211.207-.312.42-.258.707-.155.288.103 1.828.863 2.145 1.022.317.158.525.237.604.37.078.133.078.774-.177 1.504z"/>
-              </svg>
-            </a>
-          </div>
           <p className="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
         </div>
       </footer>
     );
 
     const App = () => (
-      <div>
+      <>
         <Navbar />
         <AboutSection />
         <Footer />
-      </div>
+      </>
     );
 
     createRoot(document.getElementById("root")).render(<App />);
