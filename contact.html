@@ -32,6 +32,18 @@
       max-width: 5xl;
       padding: 0 1rem;
     }
+    .success-message {
+      display: none;
+      background: #2ECC71;
+      color: #F5F6F5;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .success-message.show {
+      display: block;
+    }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -59,76 +71,121 @@
     const { createRoot } = ReactDOM;
 
     const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0">
-            <img src="images/logo.png" alt="PeP'JO Streams Logo" className="h-16 w-auto" />
-          </div>
-          <div className="hidden md:flex space-x-4">
-            <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
-          </div>
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-              </svg>
-            </button>
-          </div>
-          <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
-            <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C]">About</a>
-          </div>
-          <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-    const ContactSection = () => (
-      <section className="contact-section pt-24">
-        <div className="max-w-4xl mx-auto px-4">
-          <h1 className="hero-font text-4xl md:text-5xl font-bold mb-6 text-center text-[#2E4057] drop-shadow-md">Contact Us</h1>
-          <p className="body-font text-center text-lg mb-10 text-[#333] max-w-2xl mx-auto">
-            We’re here to help you with any questions, feedback, or support. Reach out via the form below or use our contact channels.
-          </p>
-
-          <div className="glassmorphism p-6 md:p-10 shadow-xl">
-            <form action="mailto:pepjostreams@gmail.com" method="POST" encType="text/plain" className="space-y-6">
-              <div>
-                <label className="block mb-2 font-semibold text-[#2E4057]">Full Name</label>
-                <input type="text" name="name" required className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none" />
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
               </div>
-              <div>
-                <label className="block mb-2 font-semibold text-[#2E4057]">Email Address</label>
-                <input type="email" name="email" required className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none" />
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
               </div>
-              <div>
-                <label className="block mb-2 font-semibold text-[#2E4057]">Your Message</label>
-                <textarea name="message" rows="5" required className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none"></textarea>
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
               </div>
-                <button type="submit" className="bg-[#E74C3C] text-white px-6 py-3 rounded hover:bg-[#c0392b]">
-                Send Message
-              </button>
-            </form>
+              <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+              </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+            </div>
           </div>
+        </nav>
+      );
+    };
 
-          <div className="text-center mt-8 text-[#2E4057]">
-            <p className="mb-2">📧 Email: <a href="mailto:pepjostreams@gmail.com" className="text-[#E74C3C] hover:underline">pepjostreams@gmail.com</a></p>
-            <p className="mb-2">📞 Phone: <strong>+2349067099262</strong></p>
-            <p>📍 Osogbo, Osun State, Nigeria</p>
+    const ContactSection = () => {
+      const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+      const [isSubmitted, setIsSubmitted] = useState(false);
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsSubmitted(true);
+        setTimeout(() => setIsSubmitted(false), 3000); // Hide after 3 seconds
+        // Note: This is a mock submission; replace with actual email logic if needed
+      };
+
+      return (
+        <section className="contact-section pt-24">
+          <div className="max-w-4xl mx-auto px-4">
+            <h1 className="hero-font text-4xl md:text-5xl font-bold mb-6 text-center text-[#2E4057] drop-shadow-md">Contact Us</h1>
+            <p className="body-font text-center text-lg mb-10 text-[#333] max-w-2xl mx-auto">
+              We’re here to help you with any questions, feedback, or support. Reach out via the form below or use our contact channels.
+            </p>
+
+            <div className="glassmorphism p-6 md:p-10 shadow-xl">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block mb-2 font-semibold text-[#2E4057]">Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#E74C3C]"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 font-semibold text-[#2E4057]">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#E74C3C]"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 font-semibold text-[#2E4057]">Your Message</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows="5"
+                    required
+                    className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#E74C3C]"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="bg-[#E74C3C] text-white px-6 py-3 rounded hover:bg-[#C0392B] transition duration-300 w-full md:w-auto"
+                >
+                  Send Message
+                </button>
+              </form>
+              <div className={`success-message ${isSubmitted ? 'show' : ''}`}>
+                Thank you! Your message has been sent. We’ll get back to you soon.
+              </div>
+            </div>
+
+            <div className="text-center mt-8 text-[#2E4057]">
+              <p className="mb-2">📧 Email: <a href="mailto:pepjostreams@gmail.com" className="text-[#E74C3C] hover:underline">pepjostreams@gmail.com</a></p>
+              <p className="mb-2">📞 Phone: <strong>+2349067099262</strong></p>
+              <p>📍 Osogbo, Osun State, Nigeria</p>
+              <a href="https://wa.me/+2349067099262" className="mt-4 inline-block bg-[#25D366] text-white px-4 py-2 rounded hover:bg-[#128C7E] transition duration-300">Contact Us on WhatsApp</a>
+            </div>
           </div>
-        </div>
-      </section>
-    );
+        </section>
+      );
+    };
 
     const Footer = () => (
       <footer className="bg-[#2E4057] text-[#F5F6F5] py-8 mt-10">
