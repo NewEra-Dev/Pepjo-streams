@@ -14,15 +14,15 @@
       background: rgba(245, 246, 245, 0.2);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    .glassmorphism:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
     }
     .hero-font { font-family: 'Lato', sans-serif; }
     .body-font { font-family: 'Open Sans', sans-serif; }
-    @media (max-width: 640px) {
-      .navbar-menu { display: none; }
-      .navbar-menu.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: #2E4057; }
-      .collapsible { display: none; }
-      .collapsible.active { display: block; }
-    }
     .fade-in {
       animation: fadeIn 0.5s ease-in;
     }
@@ -43,8 +43,14 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    @media (max-width: 640px) {
+      .navbar-menu { display: none; }
+      .navbar-menu.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: #2E4057; }
+      .collapsible { display: none; }
+      .collapsible.active { display: block; }
+      .glassmorphism { padding: 1rem; }
+    }
   </style>
-  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -60,39 +66,39 @@
     const { createRoot } = ReactDOM;
 
     const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0">
-            <img src="images/logo.png" alt="PeP'JO Streams Logo" className="h-16 w-auto" />
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+              </div>
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+              </div>
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+              </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+            </div>
           </div>
-          <div className="hidden md:flex space-x-4">
-            <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
-          </div>
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-              </svg>
-            </button>
-          </div>
-          <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
-            <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C]">About</a>
-          </div>
-          <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
-        </div>
-      </div>
-    </nav>
-  );
-};
+        </nav>
+      );
+    };
 
     const Hero = () => (
       <section id="support" className="min-h-screen flex items-center justify-center bg-[#F5F6F5] text-[#2E4057]">
@@ -113,7 +119,7 @@
               <button onClick={() => setActiveSection(activeSection === 'buy' ? null : 'buy')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 How do I buy gift cards?
               </button>
-              <div className={`collapsible ${activeSection === 'buy' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'buy' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">Visit the Buy page, select your gift card, enter the amount, and follow the payment instructions.</p>
               </div>
             </div>
@@ -121,7 +127,7 @@
               <button onClick={() => setActiveSection(activeSection === 'hours' ? null : 'hours')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 What are your support hours?
               </button>
-              <div className={`collapsible ${activeSection === 'hours' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'hours' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">We offer 24/7 support via WhatsApp. Email responses are typically within 24 hours.</p>
               </div>
             </div>
@@ -129,7 +135,7 @@
               <button onClick={() => setActiveSection(activeSection === 'track' ? null : 'track')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 How can I track my transaction?
               </button>
-              <div className={`collapsible ${activeSection === 'track' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'track' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">Log in to your account and check the transaction history section, or use the status checker below.</p>
               </div>
             </div>
@@ -137,7 +143,7 @@
               <button onClick={() => setActiveSection(activeSection === 'fees' ? null : 'fees')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 What are the transaction fees?
               </button>
-              <div className={`collapsible ${activeSection === 'fees' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'fees' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">Fees vary by transaction type: 2% for gift cards, 1% for crypto. See Rates for details.</p>
               </div>
             </div>
@@ -145,7 +151,7 @@
               <button onClick={() => setActiveSection(activeSection === 'refund' ? null : 'refund')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 How do I request a refund?
               </button>
-              <div className={`collapsible ${activeSection === 'refund' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'refund' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">Submit a request via the contact form within 48 hours of transaction with transaction ID.</p>
               </div>
             </div>
@@ -153,7 +159,7 @@
               <button onClick={() => setActiveSection(activeSection === 'secure' ? null : 'secure')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 How do I secure my account?
               </button>
-              <div className={`collapsible ${activeSection === 'secure' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'secure' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">Use a strong password, enable two-factor authentication, and avoid sharing login details.</p>
               </div>
             </div>
@@ -161,7 +167,7 @@
               <button onClick={() => setActiveSection(activeSection === 'withdraw' ? null : 'withdraw')} className="glassmorphism p-4 rounded-lg border-2 border-[#2E4057] w-full text-left body-font text-lg font-semibold">
                 How do I withdraw cryptocurrency?
               </button>
-              <div className={`collapsible ${activeSection === 'withdraw' ? 'active' : ''}`}>
+              <div className={`collapsible ${activeSection === 'withdraw' ? 'active' : ''} transition-all duration-300 ease-in-out`}>
                 <p className="body-font mt-2 p-4">Log in, go to Wallet, select Withdraw, enter your wallet address, and confirm.</p>
               </div>
             </div>
@@ -394,29 +400,29 @@
     };
 
     const Footer = () => (
-<footer class="bg-[#2E4057] text-[#F5F6F5] py-8 mt-20">
-  <div class="max-w-6xl mx-auto px-4 text-center">
-    <div class="space-x-4 mb-4">
-      <a href="about.html" class="hover:text-[#E74C3C]">About</a>
-      <a href="terms.html" class="hover:text-[#E74C3C]">Terms</a>
-      <a href="privacy.html" class="hover:text-[#E74C3C]">Privacy</a>
-      <a href="contact.html" class="hover:text-[#E74C3C]">Contact</a>
-    </div>
-    <div class="flex justify-center space-x-4 mb-4">
-      <a href="https://instagram.com/pepjostreams" target="_blank" class="hover:text-[#E74C3C]" aria-label="Instagram">
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-          <path d="M12 2.2c3.1 0 3.4 0 4.6.1 1.2.1 2.1.3 2.6.6.7.3 1.3.8 1.6 1.6.3.5.5 1.4.6 2.6.1 1.2.1 1.5.1 4.6s0 3.4-.1 4.6c-.1 1.2-.3 2.1-.6 2.6-.3.7-.8 1.3-1.6 1.6-.5.3-1.4.5-2.6.6-1.2.1-1.5.1-4.6.1s-3.4 0-4.6-.1c-1.2-.1-2.1-.3-2.6-.6-.7-.3-1.3-.8-1.6-1.6-.3-.5-.5-1.4-.6-2.6C2.2 15.4 2.2 15.1 2.2 12s0-3.4.1-4.6c.1-1.2.3-2.1.6-2.6.3-.7.8-1.3 1.6-1.6.5-.3 1.4-.5 2.6-.6 1.2-.1 1.5-.1 4.6-.1M12 0C8.7 0 8.3 0 7 .1 5.7.1 4.6.3 3.7.6 2.6 1 1.7 1.7 1.1 2.7.7 3.6.5 4.7.4 6 .3 7.3.3 7.7.3 12s0 4.7.1 6c.1 1.3.3 2.4.6 3.3.4 1 1.1 1.8 2.1 2.3.9.4 2 .6 3.3.7 1.3.1 1.7.1 6 .1s4.7 0 6-.1c1.3-.1 2.4-.3 3.3-.7 1-.5 1.8-1.3 2.3-2.3.4-.9.6-2 .7-3.3.1-1.3.1-1.7.1-6s0-4.7-.1-6c-.1-1.3-.3-2.4-.7-3.3-.5-1-1.3-1.8-2.3-2.3-.9-.4-2-.6-3.3-.7C16.7.1 16.3.1 12 .1 12 0 12 0 12 0z"/>
-        </svg>
-      </a>
-      <a href="https://wa.me/+2349067099262" target="_blank" class="hover:text-[#E74C3C]" aria-label="WhatsApp">
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-          <path d="M12 0C5.373 0 0 5.372 0 12c0 2.096.543 4.091 1.58 5.86L0 24l6.26-1.646A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.687 17.037c-.253.71-1.43 1.308-1.994 1.384-.514.07-1.152.098-1.849-.13-3.2-1.024-5.269-4.044-5.436-4.233-.168-.188-1.3-1.735-1.3-3.312 0-1.577.84-2.347 1.14-2.664.252-.27.672-.338.891-.338.222 0 .444.002.637.012.204.012.472-.078.738.562.293.706.994 2.44 1.078 2.619.084.178.139.388.028.626-.11.239-.164.388-.326.595-.162.208-.342.465-.488.625-.145.161-.295.342-.126.653.168.31.747 1.225 1.6 1.974 1.102.982 2.034 1.287 2.346 1.438.313.15.492.141.675-.084.183-.226.772-.9.979-1.211.207-.312.42-.258.707-.155.288.103 1.828.863 2.145 1.022.317.158.525.237.604.37.078.133.078.774-.177 1.504z"/>
-        </svg>
-      </a>
-    </div>
-    <p class="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
-  </div>
-</footer>
+      <footer className="bg-[#2E4057] text-[#F5F6F5] py-8 mt-20">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="space-x-4 mb-4">
+            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+            <a href="terms.html" className="hover:text-[#E74C3C]">Terms</a>
+            <a href="privacy.html" className="hover:text-[#E74C3C]">Privacy</a>
+            <a href="contact.html" className="hover:text-[#E74C3C]">Contact</a>
+          </div>
+          <div className="flex justify-center space-x-4 mb-4">
+            <a href="https://instagram.com/pepjostreams" target="_blank" className="hover:text-[#E74C3C]" aria-label="Instagram">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2.2c3.1 0 3.4 0 4.6.1 1.2.1 2.1.3 2.6.6.7.3 1.3.8 1.6 1.6.3.5.5 1.4.6 2.6.1 1.2.1 1.5.1 4.6s0 3.4-.1 4.6c-.1 1.2-.3 2.1-.6 2.6-.3.7-.8 1.3-1.6 1.6-.5.3-1.4.5-2.6.6-1.2.1-1.5.1-4.6.1s-3.4 0-4.6-.1c-1.2-.1-2.1-.3-2.6-.6-.7-.3-1.3-.8-1.6-1.6-.3-.5-.5-1.4-.6-2.6C2.2 15.4 2.2 15.1 2.2 12s0-3.4.1-4.6c.1-1.2.3-2.1.6-2.6.3-.7.8-1.3 1.6-1.6.5-.3 1.4-.5 2.6-.6 1.2-.1 1.5-.1 4.6-.1M12 0C8.7 0 8.3 0 7 .1 5.7.1 4.6.3 3.7.6 2.6 1 1.7 1.7 1.1 2.7.7 3.6.5 4.7.4 6 .3 7.3.3 7.7.3 12s0 4.7.1 6c.1 1.3.3 2.4.6 3.3.4 1 1.1 1.8 2.1 2.3.9.4 2 .6 3.3.7 1.3.1 1.7.1 6 .1s4.7 0 6-.1c1.3-.1 2.4-.3 3.3-.7 1-.5 1.8-1.3 2.3-2.3.4-.9.6-2 .7-3.3.1-1.3.1-1.7.1-6s0-4.7-.1-6c-.1-1.3-.3-2.4-.7-3.3-.5-1-1.3-1.8-2.3-2.3-.9-.4-2-.6-3.3-.7C16.7.1 16.3.1 12 .1 12 0 12 0 12 0z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/+2349067099262" target="_blank" className="hover:text-[#E74C3C]" aria-label="WhatsApp">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.372 0 12c0 2.096.543 4.091 1.58 5.86L0 24l6.26-1.646A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.687 17.037c-.253.71-1.43 1.308-1.994 1.384-.514.07-1.152.098-1.849-.13-3.2-1.024-5.269-4.044-5.436-4.233-.168-.188-1.3-1.735-1.3-3.312 0-1.577.84-2.347 1.14-2.664.252-.27.672-.338.891-.338.222 0 .444.002.637.012.204.012.472-.078.738.562.293.706.994 2.44 1.078 2.619.084.178.139.388.028.626-.11.239-.164.388-.326.595-.162.208-.342.465-.488.625-.145.161-.295.342-.126.653.168.31.747 1.225 1.6 1.974 1.102.982 2.034 1.287 2.346 1.438.313.15.492.141.675-.084.183-.226.772-.9.979-1.211.207-.312.42-.258.707-.155.288.103 1.828.863 2.145 1.022.317.158.525.237.604.37.078.133.078.774-.177 1.504z"/>
+              </svg>
+            </a>
+          </div>
+          <p className="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
+        </div>
+      </footer>
     );
 
     const App = () => {
