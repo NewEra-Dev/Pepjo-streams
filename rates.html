@@ -25,8 +25,6 @@
     .body-font { font-family: 'Open Sans', sans-serif; }
     @media (max-width: 640px) {
       .rates-grid { grid-template-columns: 1fr; }
-      .navbar-menu { display: none; }
-      .navbar-menu.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: #2E4057; }
     }
     .chart-container {
       max-width: 600px;
@@ -55,18 +53,28 @@
     @keyframes slideOut {
       to { transform: translateX(100%); opacity: 0; }
     }
-    @media (max-width: 640px) {
-  .navbar-menu {
-    display: none;
-  }
-  .navbar-menu.active {
-    display: block; /* Changed to block for consistency */
-  }
-  .navbar-menu a {
-    width: 100%;
-    text-align: left;
-  }
-}
+    @media (max-width: 768px) {
+      .navbar-menu {
+        display: none;
+      }
+      .navbar-menu {
+        padding: 1rem 0;
+      }
+      .navbar-menu a {
+        width: 100%;
+        text-align: left;
+      }
+    }
+    .navbar-menu {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .animate-marquee {
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
   </style>
 </head>
 <body>
@@ -81,53 +89,54 @@
       </div>
     );
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0">
-            <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+      return (
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+              </div>
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+              </div>
+              <div className="md:hidden flex items-center">
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="focus:outline-none p-2"
+                  aria-label="Toggle menu"
+                >
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div
+                className={`md:hidden navbar-menu absolute top-16 left-0 w-full bg-[#2E4057] z-40 transition-all duration-300 ease-in-out ${
+                  isOpen ? 'block' : 'hidden'
+                }`}
+              >
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+              </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+            </div>
           </div>
-          <div className="hidden md:flex space-x-4">
-            <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
-            <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
-            <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
-            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
-          </div>
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="focus:outline-none p-2"
-              aria-label="Toggle menu"
-            >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-              </svg>
-            </button>
-          </div>
-          <div
-            className={`md:hidden navbar-menu absolute top-16 left-0 w-full bg-[#2E4057] z-40 transition-all duration-300 ease-in-out ${
-              isOpen ? 'block' : 'hidden'
-            }`}
-          >
-            <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
-            <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
-            <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
-            <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
-          </div>
-          <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
-        </div>
-      </div>
-    </nav>
-  );
-};
+        </nav>
+      );
+    };
+
     const Hero = () => (
       <section id="rates" className="min-h-screen flex items-center justify-center bg-[#F5F6F5] text-[#2E4057]">
         <div className="text-center max-w-5xl px-4">
-          <h1 className="hero-font text-5xl md:text-6xl font-bold mb-4">Live Rates on PeP'JO Streams</h1>
+          <h1 className="hero-font text-5xl md:text-6xl font-bold mb-4">Live Rates on Pep'Jo Streams</h1>
           <p className="body-font text-lg md:text-xl mb-6">Check the latest rates and 7-day trends for gift cards and cryptocurrencies.</p>
         </div>
       </section>
@@ -205,7 +214,6 @@ const Navbar = () => {
       };
 
       const handleRefresh = () => {
-        // No fetch, just reset to current state (mock refresh)
         setRates(prevRates => ({
           ...prevRates,
           bitcoin: { ...prevRates.bitcoin, last_updated: new Date().toLocaleString() },
@@ -308,7 +316,7 @@ const Navbar = () => {
             <a href={`https://instagram.com/sharing/?url=${encodeURIComponent(window.location.href)}`} target="_blank" className="mr-4 text-[#E74C3C] hover:underline">
               Share on Instagram
             </a>
-            <a href={`https://wa.me/?text=${encodeURIComponent('Check out the latest rates on PeP\'JO Streams: ' + window.location.href)}`} target="_blank" className="text-[#E74C3C] hover:underline">
+            <a href={`https://wa.me/?text=${encodeURIComponent('Check out the latest rates on Pep\'Jo Streams: ' + window.location.href)}`} target="_blank" className="text-[#E74C3C] hover:underline">
               Share on WhatsApp
             </a>
           </div>
@@ -318,7 +326,7 @@ const Navbar = () => {
               <li>Always double-check wallet addresses before sending crypto.</li>
               <li>Monitor 24-hour and 7-day trends before buying or selling.</li>
               <li>Use two-factor authentication (2FA) to secure your account.</li>
-              <li>Only trade on trusted networks and platforms like PeP'JO Streams.</li>
+              <li>Only trade on trusted networks and platforms like Pep'Jo Streams.</li>
               <li>Take profits regularly and avoid panic-selling.</li>
             </ul>
           </div>
@@ -353,7 +361,7 @@ const Navbar = () => {
               </svg>
             </a>
           </div>
-          <p className="text-sm">© 2025 Pep'JO Streams. All rights reserved.</p>
+          <p className="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
         </div>
       </footer>
     );
@@ -370,28 +378,5 @@ const Navbar = () => {
 
     createRoot(document.getElementById('root')).render(<App />);
   </script>
-  <style>
-    .animate-marquee {
-      animation: marquee 15s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    @media (max-width: 640px) {
-  .navbar-menu {
-    display: none;
-  }
-  .navbar-menu {
-    padding: 1rem 0;
-  }
-  .navbar-menu a {
-    width: 100%;
-    text-align: left;
-  }
-}
-.navbar-menu {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-  </style>
+</body>
 </html>
