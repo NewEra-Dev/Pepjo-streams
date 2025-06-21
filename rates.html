@@ -24,9 +24,15 @@
     .hero-font { font-family: 'Lato', sans-serif; }
     .body-font { font-family: 'Open Sans', sans-serif; }
     @media (max-width: 640px) {
-      .rates-grid { grid-template-columns: 1fr; }
+      .mobile-stack { flex-direction: column; }
       .navbar-menu { display: none; }
-      .navbar-menu.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: #2E4057; }
+      .navbar-menu.active { display: flex; 
+        flex-direction: column; 
+        position: absolute; 
+        top: 60px; 
+        left: 0; 
+        width: 100%; 
+        background: #2E4057; }
     }
     .chart-container {
       max-width: 600px;
