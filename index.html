@@ -8,7 +8,9 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> <!-- Swiper.js -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <style>
     .glassmorphism {
       background: rgba(245, 246, 245, 0.2);
@@ -16,7 +18,7 @@
       -webkit-backdrop-filter: blur(10px);
     }
     .hero {
-      background: url('images/bg.png') no-repeat center center/cover; /* Changed to local image */
+      background: url('images/bg.png') no-repeat center center/cover;
       height: 100vh;
       position: relative;
     }
@@ -26,7 +28,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(46, 64, 87, 0.7); /* Dark overlay */
+      background: rgba(46, 64, 87, 0.7);
     }
     .hero-content {
       position: relative;
@@ -46,6 +48,25 @@
       font-size: 2rem;
       color: #E74C3C;
     }
+    .dark-mode {
+      background-color: #1a252f;
+      color: #F5F6F5;
+    }
+    .dark-mode .glassmorphism {
+      background: rgba(26, 37, 47, 0.2);
+    }
+    .dark-mode .hero-overlay {
+      background: rgba(26, 37, 47, 0.7);
+    }
+    .dark-mode .bg-[#F5F6F5] {
+      background-color: #2E4057;
+    }
+    .dark-mode .text-[#2E4057] {
+      color: #F5F6F5;
+    }
+    .dark-mode .bg-[#2E4057] {
+      background-color: #1a252f;
+    }
     @media (max-width: 640px) {
       .mobile-stack { flex-direction: column; }
       .navbar-menu { display: none; }
@@ -53,29 +74,70 @@
       .hero { height: 70vh; }
       .hero-text { font-size: 2rem; }
       .overview-grid { grid-template-columns: 1fr; }
+      button, a { min-width: 120px; padding: 0.75rem; }
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
     const { createRoot } = ReactDOM;
 
     const Navbar = () => {
       const [isOpen, setIsOpen] = useState(false);
+      const [notifications, setNotifications] = useState([]);
+      const [isDarkMode, setIsDarkMode] = useState(false);
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setNotifications(prev => [
+            ...prev.slice(-2),
+            `New rate for BTC: N${(Math.random() * 2 + 50).toFixed(0)}M [${new Date().toLocaleTimeString()}]`
+          ]);
+        }, 10000);
+        return () => clearInterval(interval);
+      }, []);
+
       return (
-        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50">
+        <nav className={`fixed w-full ${isDarkMode ? 'dark-mode' : 'bg-[#2E4057]'} text-[#F5F6F5] shadow-lg z-50`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16 items-center">
               <div className="flex-shrink-0">
                 <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
               </div>
-              <div className="hidden md:flex space-x-4">
+              <div className="hidden md:flex space-x-4 items-center">
                 <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
                 <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
                 <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
                 <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+                <a href="dashboard.html" className="hover:text-[#E74C3C]">My Account</a>
+                <div className="relative">
+                  <button className="focus:outline-none p-2 hover:text-[#3498DB]">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0119 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                  </button>
+                  {notifications.length > 0 && (
+                    <div className="absolute right-0 mt-2 w-48 bg-[#2E4057] text-[#F5F6F5] rounded shadow-lg p-2 z-50">
+                      {notifications.map((notif, index) => (
+                        <p key={index} className="text-sm">{notif}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search assets..."
+                  className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded"
+                  onChange={(e) => console.log(e.target.value)}
+                />
+                <button
+                  onClick={() => setIsDarkMode(!isDarkMode)}
+                  className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]"
+                >
+                  {isDarkMode ? 'Light' : 'Dark'} Mode
+                </button>
               </div>
               <div className="md:hidden">
                 <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
@@ -89,11 +151,53 @@
                 <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
                 <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
                 <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+                <a href="dashboard.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">My Account</a>
               </div>
               <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
             </div>
           </div>
         </nav>
+      );
+    };
+
+    const TradeHistorySlider = () => {
+      const swiperRef = useRef(null);
+      const trades = [
+        "User X sold $100 Amazon for N80,000 [Verified]",
+        "User Y bought 0.02 ETH for £1,200 [Verified]",
+        "User Z sold $50 iTunes for N37,500 [Verified]",
+      ];
+
+      useEffect(() => {
+        if (swiperRef.current && typeof Swiper !== 'undefined') {
+          new Swiper(swiperRef.current, {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true,
+            },
+            autoplay: {
+              delay: 3000,
+              disableOnInteraction: false,
+            },
+          });
+        }
+      }, []);
+
+      return (
+        <div className="w-full bg-[#2E4057] py-2 overflow-hidden mt-16">
+          <div ref={swiperRef} className="swiper-container">
+            <div className="swiper-wrapper">
+              {trades.map((trade, index) => (
+                <div key={index} className="swiper-slide glassmorphism p-2 text-[#F5F6F5] text-center">
+                  {trade}
+                </div>
+              ))}
+            </div>
+            <div className="swiper-pagination"></div>
+          </div>
+        </div>
       );
     };
 
@@ -107,33 +211,6 @@
         </div>
       </section>
     );
-
-    const LiveTradeTicker = () => {
-      const [trades, setTrades] = useState([
-        "User X sold $100 Amazon for N80,000 [Verified]",
-        "User Y bought 0.02 ETH for £1,200 [Verified]",
-      ]);
-
-      useEffect(() => {
-        const interval = setInterval(() => {
-          setTrades(prevTrades => [
-            ...prevTrades.slice(1),
-            `User Z sold $50 iTunes for N37,500 [Verified]`
-          ]);
-        }, 5000);
-        return () => clearInterval(interval);
-      }, []);
-
-      return (
-        <div className="w-full bg-[#2E4057] py-2 overflow-hidden mt-16">
-          <div className="glassmorphism p-2 animate-marquee whitespace-nowrap text-[#F5F6F5]">
-            {trades.map((trade, index) => (
-              <span key={index} className="mx-4">{trade}</span>
-            ))}
-          </div>
-        </div>
-      );
-    };
 
     const Overview = () => (
       <section className="py-12 bg-[#F5F6F5] text-[#2E4057]">
@@ -301,6 +378,24 @@
       </div>
     );
 
+    const ContactFormPopup = ({ isOpen, onClose }) => {
+      if (!isOpen) return null;
+      return (
+        <div className="fixed inset-0 bg-[#2E4057] bg-opacity-70 flex items-center justify-center z-50">
+          <div className="glassmorphism p-6 rounded-lg border-2 border-[#F5F6F5] w-11/12 md:w-2/3 max-w-xl">
+            <h3 className="body-text text-2xl font-bold text-[#F5F6F5] mb-4">Contact Us</h3>
+            <form>
+              <input type="text" placeholder="Name" className="w-full p-2 mb-2 rounded bg-[#F5F6F5] text-[#2E4057]" />
+              <input type="email" placeholder="Email" className="w-full p-2 mb-2 rounded bg-[#F5F6F5] text-[#2E4057]" />
+              <textarea placeholder="Message" className="w-full p-2 mb-2 rounded bg-[#F5F6F5] text-[#2E4057]" rows="4"></textarea>
+              <button type="submit" className="bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">Send</button>
+            </form>
+            <button onClick={onClose} className="mt-4 bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Close</button>
+          </div>
+        </div>
+      );
+    };
+
     const Footer = () => (
       <footer className="bg-[#2E4057] text-[#F5F6F5] py-6">
         <div className="max-w-7xl mx-auto px-4 text-center">
@@ -329,12 +424,13 @@
 
     const App = () => {
       const [isModalOpen, setIsModalOpen] = useState(false);
+      const [isContactOpen, setIsContactOpen] = useState(false);
 
       return (
         <div>
           <Navbar />
           <Hero />
-          <LiveTradeTicker />
+          <TradeHistorySlider />
           <Overview />
           <RateTable openModal={() => setIsModalOpen(true)} />
           <RateComparisonModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -342,6 +438,13 @@
           <Testimonials />
           <TrustSignals />
           <RateComparisonSection />
+          <ContactFormPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+          <button
+            onClick={() => setIsContactOpen(true)}
+            className="fixed bottom-4 right-4 bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded-full hover:bg-[#C0392B] z-50"
+          >
+            Contact Us
+          </button>
           <Footer />
         </div>
       );
