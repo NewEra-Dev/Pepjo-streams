@@ -12,15 +12,13 @@
   <style>
     .glassmorphism {
       background: rgba(245, 246, 245, 0.2);
-      backdrop-filter: blur(8px); /* Slightly reduced blur for performance */
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 0.5rem; /* Softer corners */
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     .hero {
-      background: url('images/bg.png') no-repeat center center/cover;
-      min-height: 70vh; /* Default to mobile height */
+      background: url('images/bg.png') no-repeat center center/cover; /* Changed to local image */
+      height: 100vh;
       position: relative;
-      overflow: hidden; /* Prevent overflow issues */
     }
     .hero-overlay {
       position: absolute;
@@ -28,13 +26,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(46, 64, 87, 0.6); /* Lighter overlay for better text visibility */
+      background: rgba(46, 64, 87, 0.7); /* Dark overlay */
     }
     .hero-content {
       position: relative;
       z-index: 10;
       color: #F5F6F5;
-      padding: 1rem; /* Added padding for touch comfort */
     }
     .hero-text { font-family: 'Lato', sans-serif; }
     .body-text { font-family: 'Open Sans', sans-serif; }
@@ -46,33 +43,16 @@
       100% { transform: translateX(-100%); }
     }
     .overview-icon {
-      font-size: 1.5rem; /* Reduced for mobile */
+      font-size: 2rem;
       color: #E74C3C;
     }
-    /* Mobile-first base styles */
-    @media (min-width: 640px) { /* Adjustments for tablet and up */
-      .hero { min-height: 100vh; }
-      .hero-text { font-size: 7xl; }
-      .body-text { font-size: xl; }
-      .overview-grid { grid-template-columns: repeat(3, 1fr); }
-      .navbar-menu { display: flex; }
-      .glassmorphism { border-radius: 0.75rem; }
-    }
     @media (max-width: 640px) {
-      .mobile-stack { flex-direction: column; gap: 0.5rem; }
-      .navbar-menu { 
-        display: none; 
-        position: absolute; 
-        top: 60px; 
-        left: 0; 
-        width: 100%; 
-        background: #2E4057; 
-      }
-      .navbar-menu.active { display: flex; flex-direction: column; }
-      .hero-text { font-size: 2rem; line-height: 1.2; }
-      .body-text { font-size: lg; line-height: 1.4; }
+      .mobile-stack { flex-direction: column; }
+      .navbar-menu { display: none; }
+      .navbar-menu.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; width: 100%; background: #2E4057; }
+      .hero { height: 70vh; }
+      .hero-text { font-size: 2rem; }
       .overview-grid { grid-template-columns: 1fr; }
-      button, a { min-width: 120px; padding: 0.75rem; } /* Larger tap targets */
     }
   </style>
 </head>
@@ -85,12 +65,18 @@
     const Navbar = () => {
       const [isOpen, setIsOpen] = useState(false);
       return (
-        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50 p-2">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="flex-shrink-0">
-              <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-12 w-auto" /> {/* Smaller logo for mobile */}
-            </div>
-            <div className="flex items-center space-x-4">
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+              </div>
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+              </div>
               <div className="md:hidden">
                 <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
                   <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,15 +84,13 @@
                   </svg>
                 </button>
               </div>
-              <div className={`md:flex ${isOpen ? 'active' : ''} navbar-menu`}>
-                <div className="md:flex space-x-4 md:items-center">
-                  <a href="index.html" className="block md:inline px-4 py-2 hover:text-[#E74C3C]">Home</a>
-                  <a href="rates.html" className="block md:inline px-4 py-2 hover:text-[#E74C3C]">Rates</a>
-                  <a href="support.html" className="block md:inline px-4 py-2 hover:text-[#E74C3C]">Support</a>
-                  <a href="about.html" className="block md:inline px-4 py-2 hover:text-[#E74C3C]">About</a>
-                </div>
-                <a href="https://wa.me/+2349067099262" className="md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5] mt-2 md:mt-0">Get Started</a>
+              <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
               </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
             </div>
           </div>
         </nav>
@@ -116,10 +100,10 @@
     const Hero = () => (
       <section id="home" className="hero">
         <div className="hero-overlay"></div>
-        <div className="hero-content text-center flex flex-col items-center justify-center h-full">
-          <h1 className="hero-text text-3xl md:text-7xl font-bold mb-2 md:mb-4">Welcome to Pep'Jo Streams</h1>
-          <p className="body-text text-base md:text-xl mb-4 md:mb-6 max-w-xs md:max-w-2xl">Your trusted platform for real-time crypto and gift card rates. Join 15,000+ traders worldwide.</p>
-          <a href="rates.html" className="bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 md:px-6 md:py-3 rounded-lg hover:bg-[#C0392B] transition duration-300">Get Started</a>
+        <div className="hero-content text-center flex flex-col items-center justify-center h-full px-4">
+          <h1 className="hero-text text-5xl md:text-7xl font-bold mb-4">Welcome to Pep'Jo Streams</h1>
+          <p className="body-text text-lg md:text-xl mb-6 max-w-2xl">Your trusted platform for real-time crypto and gift card rates, trends, and secure transactions. Join 15,000+ traders worldwide.</p>
+          <a href="rates.html" className="bg-[#E74C3C] text-[#F5F6F5] px-6 py-3 rounded-lg hover:bg-[#C0392B] transition duration-300">Get Started</a>
         </div>
       </section>
     );
@@ -141,10 +125,10 @@
       }, []);
 
       return (
-        <div className="w-full bg-[#2E4057] py-1 overflow-hidden mt-4">
-          <div className="glassmorphism p-1 animate-marquee whitespace-nowrap text-sm md:text-base text-[#F5F6F5]">
+        <div className="w-full bg-[#2E4057] py-2 overflow-hidden mt-16">
+          <div className="glassmorphism p-2 animate-marquee whitespace-nowrap text-[#F5F6F5]">
             {trades.map((trade, index) => (
-              <span key={index} className="mx-2">{trade}</span>
+              <span key={index} className="mx-4">{trade}</span>
             ))}
           </div>
         </div>
@@ -152,24 +136,24 @@
     };
 
     const Overview = () => (
-      <section className="py-6 bg-[#F5F6F5] text-[#2E4057]">
-        <div className="max-w-7xl mx-auto px-2 text-center">
-          <h2 className="body-text text-2xl md:text-3xl font-bold mb-4">Why Choose Pep'Jo Streams?</h2>
-          <div className="overview-grid grid gap-4">
-            <div className="p-3">
-              <div className="overview-icon mb-2">💰</div>
-              <h3 className="body-text text-lg md:text-xl font-semibold mb-1">Live Rates</h3>
-              <p className="text-xs md:text-sm">Get the latest prices for crypto and gift cards.</p>
+      <section className="py-12 bg-[#F5F6F5] text-[#2E4057]">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="body-text text-3xl font-bold mb-8">Why Choose Pep'Jo Streams?</h2>
+          <div className="overview-grid grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6">
+              <div className="overview-icon mb-4">💰</div>
+              <h3 className="body-text text-xl font-semibold mb-2">Live Rates</h3>
+              <p className="text-sm">Get the latest prices for crypto and gift cards updated in real-time.</p>
             </div>
-            <div className="p-3">
-              <div className="overview-icon mb-2">📈</div>
-              <h3 className="body-text text-lg md:text-xl font-semibold mb-1">Market Trends</h3>
-              <p className="text-xs md:text-sm">Track trends to make informed decisions.</p>
+            <div className="p-6">
+              <div className="overview-icon mb-4">📈</div>
+              <h3 className="body-text text-xl font-semibold mb-2">Market Trends</h3>
+              <p className="text-sm">Track 7-day trends to make informed trading decisions.</p>
             </div>
-            <div className="p-3">
-              <div className="overview-icon mb-2">🤝</div>
-              <h3 className="body-text text-lg md:text-xl font-semibold mb-1">24/7 Support</h3>
-              <p className="text-xs md:text-sm">Assist anytime via WhatsApp.</p>
+            <div className="p-6">
+              <div className="overview-icon mb-4">🤝</div>
+              <h3 className="body-text text-xl font-semibold mb-2">24/7 Support</h3>
+              <p className="text-sm">Our team is here to assist you anytime via WhatsApp.</p>
             </div>
           </div>
         </div>
@@ -179,41 +163,35 @@
     const RateTable = ({ openModal }) => {
       const [currency, setCurrency] = useState('NGN');
       return (
-        <div className="max-w-7xl mx-auto px-2 py-6 bg-[#F5F6F5] text-[#2E4057]">
-          <h2 className="body-text text-2xl md:text-3xl font-bold text-center mb-3">Real-Time Trading Rates</h2>
-          <p className="body-text text-center mb-2 text-xs md:text-base">Competitive rates updated hourly. Trade securely.</p>
-          <div className="bg-[#2E4057] text-[#F5F6F5] p-1 rounded-t-lg">
-            <div className="grid grid-cols-4 gap-1 p-1 text-xs md:text-sm">
+        <div className="max-w-7xl mx-auto px-4 py-12 bg-[#F5F6F5] text-[#2E4057]">
+          <h2 className="body-text text-3xl font-bold text-center mb-6">Real-Time Trading Rates</h2>
+          <p className="body-text text-center mb-4">Competitive rates updated hourly. Trade with 99% security.</p>
+          <div className="bg-[#2E4057] text-[#F5F6F5] p-2 rounded-t-lg">
+            <div className="grid grid-cols-4 gap-4 p-2">
               <span>Asset</span><span>Sell Rate</span><span>Buy Rate</span><span>Action</span>
             </div>
           </div>
-          <div className="glassmorphism p-2 rounded-b-lg">
-            <div className="grid grid-cols-4 gap-1 mb-1 text-xs md:text-sm">
+          <div className="glassmorphism p-4 rounded-b-lg">
+            <div className="grid grid-cols-4 gap-4 mb-2">
               <span>Amazon</span><span>N1150/$1</span><span>N1200/$1</span>
-              <div className="flex flex-col md:flex-row gap-1">
-                <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell</a>
-                <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy</a>
-              </div>
+              <div><a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell</a>
+              <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded ml-2 hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy</a></div>
             </div>
-            <div className="grid grid-cols-4 gap-1 mb-1 text-xs md:text-sm">
+            <div className="grid grid-cols-4 gap-4 mb-2">
               <span>iTunes</span><span>N1250/$1</span><span>N1300/$1</span>
-              <div className="flex flex-col md:flex-row gap-1">
-                <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell</a>
-                <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy</a>
-              </div>
+              <div><a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell</a>
+              <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded ml-2 hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy</a></div>
             </div>
-            <div className="grid grid-cols-4 gap-1 mb-1 text-xs md:text-sm">
+            <div className="grid grid-cols-4 gap-4 mb-2">
               <span>BTC</span><span>N50M</span><span>N51M</span>
-              <div className="flex flex-col md:flex-row gap-1">
-                <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell</a>
-                <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy</a>
-              </div>
+              <div><a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Sell</a>
+              <a href="#" className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded ml-2 hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Buy</a></div>
             </div>
-            <div className="flex flex-col md:flex-row space-x-0 md:space-x-2 mt-2 mobile-stack">
-              <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded border border-[#2E4057] text-xs">
+            <div className="flex space-x-4 mt-4 mobile-stack">
+              <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="bg-[#F5F6F5] text-[#2E4057] px-3 py-1 rounded border border-[#2E4057]">
                 <option>NGN</option><option>GBP</option>
               </select>
-              <button onClick={openModal} className="bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded border border-[#2E4057] text-xs hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Open Rate Comparison</button>
+              <button onClick={openModal} className="bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded border border-[#2E4057] hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Open Rate Comparison</button>
             </div>
           </div>
         </div>
@@ -224,127 +202,127 @@
       if (!isOpen) return null;
       return (
         <div className="fixed inset-0 bg-[#2E4057] bg-opacity-70 flex items-center justify-center z-50">
-          <div className="glassmorphism p-3 md:p-6 rounded-lg border-2 border-[#F5F6F5] w-11/12 md:w-2/3 max-w-xs md:max-w-xl">
-            <h3 className="body-text text-xl md:text-2xl font-bold text-[#F5F6F5] mb-2">Rate Comparison</h3>
-            <table className="w-full text-[#F5F6F5] text-xs md:text-sm">
+          <div className="glassmorphism p-6 rounded-lg border-2 border-[#F5F6F5] w-11/12 md:w-2/3 max-w-xl">
+            <h3 className="body-text text-2xl font-bold text-[#F5F6F5] mb-4">Rate Comparison</h3>
+            <table className="w-full text-[#F5F6F5]">
               <thead>
                 <tr>
-                  <th className="px-2 py-1">Asset</th><th className="px-2 py-1">Pep'Jo Rate</th><th className="px-2 py-1">Comp A</th><th className="px-2 py-1">Comp B</th>
+                  <th className="px-4 py-2">Asset</th><th className="px-4 py-2">Pep'Jo Streams Rate</th><th className="px-4 py-2">Competitor A</th><th className="px-4 py-2">Competitor B</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="px-2 py-1">Amazon</td><td className="px-2 py-1">N1300/$1</td><td className="px-2 py-1">N1250</td><td className="px-2 py-1">N1200</td>
+                  <td className="px-4 py-2">Amazon</td><td className="px-4 py-2">N1300/$1</td><td className="px-4 py-2">N1250</td><td className="px-4 py-2">N1200</td>
                 </tr>
                 <tr>
-                  <td className="px-2 py-1">BTC</td><td className="px-2 py-1">N50M</td><td className="px-2 py-1">N49M</td><td className="px-2 py-1">N49.5M</td>
+                  <td className="px-4 py-2">BTC</td><td className="px-4 py-2">N50M</td><td className="px-4 py-2">N49M</td><td className="px-4 py-2">N49.5M</td>
                 </tr>
               </tbody>
             </table>
-            <button onClick={onClose} className="mt-2 bg-[#F5F6F5] text-[#2E4057] px-2 py-1 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5] text-xs">Close</button>
+            <button onClick={onClose} className="mt-4 bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Close</button>
           </div>
         </div>
       );
     };
 
     const HowItWorks = () => (
-      <div className="max-w-7xl mx-auto px-2 py-6 bg-[#2E4057] text-[#F5F6F5]">
-        <h2 className="body-text text-2xl md:text-3xl font-bold text-center mb-3">How Pep'Jo Streams Works</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-          <div className="glassmorphism p-2 text-center">
-            <h3 className="font-bold text-sm md:text-base">Step 1: Register</h3>
-            <p className="text-xs md:text-sm">Sign up in under a minute.</p>
+      <div className="max-w-7xl mx-auto px-4 py-12 bg-[#2E4057] text-[#F5F6F5]">
+        <h2 className="body-text text-3xl font-bold text-center mb-6">How Pep'Jo Streams Works</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="glassmorphism p-4 text-center">
+            <h3 className="font-bold">Step 1: Register</h3>
+            <p>Sign up with email or social login in under a minute.</p>
           </div>
-          <div className="glassmorphism p-2 text-center">
-            <h3 className="font-bold text-sm md:text-base">Step 2: Verify</h3>
-            <p className="text-xs md:text-sm">KYC in 10 mins.</p>
+          <div className="glassmorphism p-4 text-center">
+            <h3 className="font-bold">Step 2: Verify</h3>
+            <p>Submit ID for KYC compliance, processed in 10 mins.</p>
           </div>
-          <div className="glassmorphism p-2 text-center">
-            <h3 className="font-bold text-sm md:text-base">Step 3: Trade</h3>
-            <p className="text-xs md:text-sm">Buy or sell with real-time rates.</p>
+          <div className="glassmorphism p-4 text-center">
+            <h3 className="font-bold">Step 3: Trade</h3>
+            <p>List gift cards or buy crypto with real-time rates.</p>
           </div>
-          <div className="glassmorphism p-2 text-center">
-            <h3 className="font-bold text-sm md:text-base">Step 4: Withdraw</h3>
-            <p className="text-xs md:text-sm">Paid in 15 mins.</p>
+          <div className="glassmorphism p-4 text-center">
+            <h3 className="font-bold">Step 4: Withdraw</h3>
+            <p>Get paid in NGN or GBP within 15 minutes.</p>
           </div>
         </div>
       </div>
     );
 
     const Testimonials = () => (
-      <div className="max-w-7xl mx-auto px-2 py-6 bg-[#F5F6F5] text-[#2E4057]">
-        <h2 className="body-text text-2xl md:text-3xl font-bold text-center mb-3">Trusted by Traders</h2>
-        <div className="grid grid-cols-1 gap-4">
-          <div className="glassmorphism p-2">
-            <p className="italic text-sm md:text-base">"Best crypto service. Highly recommend." - Tofunmi</p>
-            <p className="mt-1 font-bold">★★★★★</p>
+      <div className="max-w-7xl mx-auto px-4 py-12 bg-[#F5F6F5] text-[#2E4057]">
+        <h2 className="body-text text-3xl font-bold text-center mb-6">Trusted by Traders</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="glassmorphism p-4">
+            <p className="italic">"I've tried several crypto transaction services, and Pep'jo Streams stands out as the best. The transaction is straightforward and transparent. Highly recommend their services." - Tofunmi, Osun</p>
+            <p className="mt-2 font-bold">★★★★★</p>
           </div>
-          <div className="glassmorphism p-2">
-            <p className="italic text-sm md:text-base">"Reliable and top-notch. Trustworthy!" - Mariam</p>
-            <p className="mt-1 font-bold">★★★★☆</p>
+          <div className="glassmorphism p-4">
+            <p className="italic">"Very reliable company, every service rendered is top notch and exceptional, I have do regrets trading with them 💯 for someone that has trust issues like myself, I have found trust with this company and I recommend …" - Mariam, Lagos</p>
+            <p className="mt-2 font-bold">★★★★☆</p>
           </div>
-          <div className="glassmorphism p-2">
-            <p className="italic text-sm md:text-base">"Fast & reliable vendor." - Oyinda</p>
-            <p className="mt-1 font-bold">★★★★★</p>
+          <div className="glassmorphism p-4">
+            <p className="italic">"Trusted crypto Vendor Fast&Reliable" - Oyinda, Ipetu</p>
+            <p className="mt-2 font-bold">★★★★★</p>
           </div>
         </div>
       </div>
     );
 
     const TrustSignals = () => (
-      <div className="max-w-7xl mx-auto px-2 py-6 bg-[#2E4057] text-[#F5F6F5] text-center">
-        <h2 className="body-text text-2xl md:text-3xl font-bold mb-3">Our Credibility</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="max-w-7xl mx-auto px-4 py-12 bg-[#2E4057] text-[#F5F6F5] text-center">
+        <h2 className="body-text text-3xl font-bold mb-6">Our Credibility</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <h3 className="font-bold text-xl md:text-2xl">15,000+</h3>
-            <p className="text-xs md:text-sm">Active Users</p>
+            <h3 className="font-bold text-2xl">15,000+</h3>
+            <p>Active Users</p>
           </div>
           <div>
-            <h3 className="font-bold text-xl md:text-2xl">N1B+</h3>
-            <p className="text-xs md:text-sm">Total Traded</p>
+            <h3 className="font-bold text-2xl">N1B+</h3>
+            <p>Total Traded</p>
           </div>
           <div>
-            <h3 className="font-bold text-xl md:text-2xl">98%</h3>
-            <p className="text-xs md:text-sm">Success Rate</p>
+            <h3 className="font-bold text-2xl">98%</h3>
+            <p>Success Rate</p>
           </div>
         </div>
       </div>
     );
 
     const RateComparisonSection = () => (
-      <div className="max-w-7xl mx-auto px-2 py-6 bg-[#F5F6F5] text-[#2E4057] text-center">
-        <h2 className="body-text text-2xl md:text-3xl font-bold mb-3">Beat the Market</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
-          <div className="glassmorphism p-2 text-sm md:text-base">Pep'Jo Streams: N1100/$1</div>
-          <div className="glassmorphism p-2 text-sm md:text-base">Competitor A: N1050</div>
-          <div className="glassmorphism p-2 text-sm md:text-base">Competitor B: N1000</div>
+      <div className="max-w-7xl mx-auto px-4 py-12 bg-[#F5F6F5] text-[#2E4057] text-center">
+        <h2 className="body-text text-3xl font-bold mb-6">Beat the Market</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="glassmorphism p-4">Pep'Jo Streams Amazon: N1100/$1</div>
+          <div className="glassmorphism p-4">Competitor A: N1050</div>
+          <div className="glassmorphism p-4">Competitor B: N1000</div>
         </div>
-        <a href="https://wa.me/+2349067099262" className="bg-[#2E4057] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5] text-sm">Join Now</a>
+        <a href="https://wa.me/+2349067099262" className="bg-[#2E4057] text-[#F5F6F5] px-6 py-3 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Join Now</a>
       </div>
     );
 
     const Footer = () => (
-      <footer className="bg-[#2E4057] text-[#F5F6F5] py-3">
-        <div className="max-w-7xl mx-auto px-2 text-center">
-          <div className="space-x-2 mb-1">
-            <a href="about.html" className="hover:text-[#E74C3C] text-xs">About</a>
-            <a href="terms.html" className="hover:text-[#E74C3C] text-xs">Terms</a>
-            <a href="privacy.html" className="hover:text-[#E74C3C] text-xs">Privacy</a>
-            <a href="contact.html" className="hover:text-[#E74C3C] text-xs">Contact</a>
+      <footer className="bg-[#2E4057] text-[#F5F6F5] py-6">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="space-x-4 mb-2">
+            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+            <a href="terms.html" className="hover:text-[#E74C3C]">Terms</a>
+            <a href="privacy.html" className="hover:text-[#E74C3C]">Privacy</a>
+            <a href="contact.html" className="hover:text-[#E74C3C]">Contact</a>
           </div>
-          <div className="flex justify-center space-x-2 mb-1">
+          <div className="flex justify-center space-x-4 mb-4">
             <a href="https://instagram.com/pepjostreams" target="_blank" className="hover:text-[#E74C3C]" aria-label="Instagram">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                 <path d="M12 2.2c3.1 0 3.4 0 4.6.1 1.2.1 2.1.3 2.6.6.7.3 1.3.8 1.6 1.6.3.5.5 1.4.6 2.6.1 1.2.1 1.5.1 4.6s0 3.4-.1 4.6c-.1 1.2-.3 2.1-.6 2.6-.3.7-.8 1.3-1.6 1.6-.5.3-1.4.5-2.6.6-1.2.1-1.5.1-4.6.1s-3.4 0-4.6-.1c-1.2-.1-2.1-.3-2.6-.6-.7-.3-1.3-.8-1.6-1.6-.3-.5-.5-1.4-.6-2.6C2.2 15.4 2.2 15.1 2.2 12s0-3.4.1-4.6c.1-1.2.3-2.1.6-2.6.3-.7.8-1.3 1.6-1.6.5-.3 1.4-.5 2.6-.6 1.2-.1 1.5-.1 4.6-.1M12 0C8.7 0 8.3 0 7 .1 5.7.1 4.6.3 3.7.6 2.6 1 1.7 1.7 1.1 2.7.7 3.6.5 4.7.4 6 .3 7.3.3 7.7.3 12s0 4.7.1 6c.1 1.3.3 2.4.6 3.3.4 1 1.1 1.8 2.1 2.3.9.4 2 .6 3.3.7 1.3.1 1.7.1 6 .1s4.7 0 6-.1c1.3-.1 2.4-.3 3.3-.7 1-.5 1.8-1.3 2.3-2.3.4-.9.6-2 .7-3.3.1-1.3.1-1.7.1-6s0-4.7-.1-6c-.1-1.3-.3-2.4-.7-3.3-.5-1-1.3-1.8-2.3-2.3-.9-.4-2-.6-3.3-.7C16.7.1 16.3.1 12 .1 12 0 12 0 12 0z"/>
               </svg>
             </a>
             <a href="https://wa.me/+2349067099262" target="_blank" className="hover:text-[#E74C3C]" aria-label="WhatsApp">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                 <path d="M12 0C5.373 0 0 5.372 0 12c0 2.096.543 4.091 1.58 5.86L0 24l6.26-1.646A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.687 17.037c-.253.71-1.43 1.308-1.994 1.384-.514.07-1.152.098-1.849-.13-3.2-1.024-5.269-4.044-5.436-4.233-.168-.188-1.3-1.735-1.3-3.312 0-1.577.84-2.347 1.14-2.664.252-.27.672-.338.891-.338.222 0 .444.002.637.012.204.012.472-.078.738.562.293.706.994 2.44 1.078 2.619.084.178.139.388.028.626-.11.239-.164.388-.326.595-.162.208-.342.465-.488.625-.145.161-.295.342-.126.653.168.31.747 1.225 1.6 1.974 1.102.982 2.034 1.287 2.346 1.438.313.15.492.141.675-.084.183-.226.772-.9.979-1.211.207-.312.42-.258.707-.155.288.103 1.828.863 2.145 1.022.317.158.525.237.604.37.078.133.078.774-.177 1.504z"/>
               </svg>
             </a>
           </div>
-          <p className="text-xs">© 2025 Pep'Jo Streams. All Rights Reserved.</p>
+          <p>© 2025 Pep'Jo Streams. All Rights Reserved.</p>
         </div>
       </footer>
     );
