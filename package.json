@@ -1,14 +1,14 @@
 {
   "name": "pepjo-streams",
   "version": "1.0.0",
-  "description": "Pep'Jo Streams rate display",
+  "description": "PeP'JO Streams rate display",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "dotenv": "^16.5.0",
     "express": "^4.17.1",
-    "http-proxy-middleware": "^2.0.6"
+    "http-proxy-middleware": "^2.0.6",
+    "dotenv": "^16.0.0"
   }
 }
