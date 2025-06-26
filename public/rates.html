@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pep'Jo Streams - Rates</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    .glassmorphism {
+      background: rgba(245, 246, 245, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 0.75rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glassmorphism:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    .hero-font { font-family: 'Lato', sans-serif; }
+    .body-font { font-family: 'Open Sans', sans-serif; }
+    .rates-section {
+      background: linear-gradient(135deg, #F5F6F5 0%, #E0E7FF 100%);
+      padding: 4rem 0;
+    }
+    .chart-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #E74C3C;
+      color: #F5F6F5;
+      padding: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      animation: slideIn 0.5s ease-out;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .notification.hide {
+      animation: slideOut 0.5s ease-out forwards;
+    }
+    @keyframes slideOut {
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    @media (max-width: 640px) {
+      .mobile-stack { flex-direction: column; }
+      .navbar-menu { display: none; }
+      .navbar-menu.active { 
+        display: flex; 
+        flex-direction: column; 
+        position: absolute; 
+        top: 60px; 
+        left: 0; 
+        width: 100%; 
+        background: #2E4057; 
+      }
+      .rates-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+    const { createRoot } = ReactDOM;
+
+    const InfoBanner = () => (
+      <div className="bg-[#E74C3C] text-white text-sm py-2 animate-marquee whitespace-nowrap px-4">
+        🔔 Welcome to Pep'Jo Streams! Check real-time crypto and gift card rates. Refresh every minute. Trade smart, trade safe.
+      </div>
+    );
+
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+              </div>
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+              </div>
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+              </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+            </div>
+          </div>
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section id="rates" className="min-h-screen flex items-center justify-center bg-[#F5F6F5] text-[#2E4057]">
+        <div className="text-center max-w-5xl px-4">
+          <h1 className="hero-font text-5xl md:text-6xl font-bold mb-4">Live Rates on Pep'Jo Streams</h1>
+          <p className="body-font text-lg md:text-xl mb-6">Check the latest rates and 7-day trends for gift cards and cryptocurrencies.</p>
+        </div>
+      </section>
+    );
+
+    const Notification = ({ message, onClose }) => {
+      useEffect(() => {
+        const timer = setTimeout(onClose, 5000); // Auto-close after 5 seconds
+        return () => clearTimeout(timer);
+      }, [onClose]);
+
+      return (
+        <div className="notification">
+          <p>{message}</p>
+          <button onClick={onClose} className="ml-4 text-white underline">Close</button>
+        </div>
+      );
+    };
+
+    const RatesSection = () => {
+      const [rates, setRates] = useState({
+        bitcoin: { price: 106000, change_24h: 2.5, last_updated: 'June 20, 2025, 11:00 PM WAT', history: [100000, 101000, 102000, 103000, 104000, 105000, 106000] },
+        ethereum: { price: 53000, change_24h: 1.8, last_updated: 'June 20, 2025, 11:00 PM WAT', history: [50000, 50500, 51000, 51500, 52000, 52500, 53000] },
+        usdc: { price: 1500, change_24h: 0.1, last_updated: 'June 20, 2025, 11:00 PM WAT', history: [] },
+        usdt: { price: 1500, change_24h: 0.1, last_updated: 'June 20, 2025, 11:00 PM WAT', history: [] },
+        amazon: 820,
+        itunes: 770
+      });
+      const [alertThreshold, setAlertThreshold] = useState('');
+      const [showAlert, setShowAlert] = useState(false);
+      const chartRef = useRef(null);
+
+      useEffect(() => {
+        const ctx = chartRef.current?.getContext('2d');
+        if (ctx && rates.bitcoin.history.length > 0 && rates.ethereum.history.length > 0) {
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: Array.from({ length: 7 }, (_, i) => `Day ${i + 1}`),
+              datasets: [
+                {
+                  label: 'Bitcoin (BTC)',
+                  data: rates.bitcoin.history,
+                  borderColor: '#F7931A',
+                  fill: false,
+                  tension: 0.1
+                },
+                {
+                  label: 'Ethereum (ETH)',
+                  data: rates.ethereum.history,
+                  borderColor: '#627EEA',
+                  fill: false,
+                  tension: 0.1
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { y: { beginAtZero: false, title: { display: true, text: 'Price (NGN)' } } },
+              plugins: { legend: { position: 'top' } }
+            }
+          });
+        }
+      }, [rates]);
+
+      useEffect(() => {
+        if (alertThreshold && rates.bitcoin.price > parseFloat(alertThreshold)) {
+          setShowAlert(true);
+        }
+      }, [rates.bitcoin.price, alertThreshold]);
+
+      const getTrendSummary = (history) => {
+        if (!history.length) return { high: 0, low: 0, avg: 0 };
+        const high = Math.max(...history);
+        const low = Math.min(...history);
+        const avg = history.reduce((a, b) => a + b, 0) / history.length;
+        return { high, low, avg };
+      };
+
+      const handleRefresh = () => {
+        // Mock refresh with slight price variation
+        setRates(prevRates => ({
+          ...prevRates,
+          bitcoin: {
+            ...prevRates.bitcoin,
+            price: prevRates.bitcoin.price + (Math.random() * 1000 - 500),
+            last_updated: new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })
+          },
+          ethereum: {
+            ...prevRates.ethereum,
+            price: prevRates.ethereum.price + (Math.random() * 500 - 250),
+            last_updated: new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })
+          },
+          usdc: {
+            ...prevRates.usdc,
+            last_updated: new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })
+          },
+          usdt: {
+            ...prevRates.usdt,
+            last_updated: new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })
+          },
+          amazon: prevRates.amazon + (Math.random() * 10 - 5),
+          itunes: prevRates.itunes + (Math.random() * 10 - 5)
+        }));
+      };
+
+      useEffect(() => {
+        const interval = setInterval(handleRefresh, 60000); // Refresh every minute
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <section className="rates-section pt-24">
+          <div className="max-w-7xl mx-auto px-4 py-12">
+            <div className="relative mb-8">
+              <h2 className="body-font text-xl font-bold text-center relative z-10 inline-block bg-[#F5F6F5] px-4">
+                Our Live Exchange Rates
+              </h2>
+              <hr className="absolute top-1/2 left-0 w-full border-t border-[#2E4057] z-0" />
+            </div>
+            <h2 className="body-font text-3xl font-bold text-center mb-6">Current Rates</h2>
+            <div className="rates-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="glassmorphism p-6 rounded-lg border-2 border-[#2E4057] text-center">
+                <h3 className="body-font text-xl font-semibold">Amazon Gift Card</h3>
+                <p className="text-2xl">N{rates.amazon.toFixed(2)}/$1</p>
+                <p className="text-sm">Last Updated: {new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}</p>
+                <p className="text-sm">24h Change: N/A</p>
+                <p className="text-sm">7d Trend: High: N{getTrendSummary(rates.bitcoin.history).high.toFixed(2)}, Low: N{getTrendSummary(rates.bitcoin.history).low.toFixed(2)}, Avg: N{getTrendSummary(rates.bitcoin.history).avg.toFixed(2)}</p>
+                <a href={`https://wa.me/+2349067099262?text=${encodeURIComponent(`Interested in Amazon Gift Card transaction at N${rates.amazon.toFixed(2)}`)}`} target="_blank" className="mt-4 inline-block bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">
+                  Contact for Transaction
+                </a>
+              </div>
+              <div className="glassmorphism p-6 rounded-lg border-2 border-[#2E4057] text-center">
+                <h3 className="body-font text-xl font-semibold">iTunes Gift Card</h3>
+                <p className="text-2xl">N{rates.itunes.toFixed(2)}/$1</p>
+                <p className="text-sm">Last Updated: {new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}</p>
+                <p className="text-sm">24h Change: N/A</p>
+                <p className="text-sm">7d Trend: High: N{getTrendSummary(rates.bitcoin.history).high.toFixed(2)}, Low: N{getTrendSummary(rates.bitcoin.history).low.toFixed(2)}, Avg: N{getTrendSummary(rates.bitcoin.history).avg.toFixed(2)}</p>
+                <a href={`https://wa.me/+2349067099262?text=${encodeURIComponent(`Interested in iTunes Gift Card transaction at N${rates.itunes.toFixed(2)}`)}`} target="_blank" className="mt-4 inline-block bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">
+                  Contact for Transaction
+                </a>
+              </div>
+              <div className="glassmorphism p-6 rounded-lg border-2 border-[#2E4057] text-center">
+                <h3 className="body-font text-xl font-semibold">Bitcoin (BTC)</h3>
+                <p className="text-2xl">N{rates.bitcoin.price.toFixed(2)}</p>
+                <p className="text-sm">Last Updated: {rates.bitcoin.last_updated}</p>
+                <p className="text-sm">24h Change: {rates.bitcoin.change_24h.toFixed(2)}%</p>
+                <p className="text-sm">7d Trend: High: N{getTrendSummary(rates.bitcoin.history).high.toFixed(2)}, Low: N{getTrendSummary(rates.bitcoin.history).low.toFixed(2)}, Avg: N{getTrendSummary(rates.bitcoin.history).avg.toFixed(2)}</p>
+                <a href={`https://wa.me/+2349067099262?text=${encodeURIComponent(`Interested in Bitcoin transaction at N${rates.bitcoin.price.toFixed(2)}`)}`} target="_blank" className="mt-4 inline-block bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">
+                  Contact for Transaction
+                </a>
+              </div>
+              <div className="glassmorphism p-6 rounded-lg border-2 border-[#2E4057] text-center">
+                <h3 className="body-font text-xl font-semibold">Ethereum (ETH)</h3>
+                <p className="text-2xl">N{rates.ethereum.price.toFixed(2)}</p>
+                <p className="text-sm">Last Updated: {rates.ethereum.last_updated}</p>
+                <p className="text-sm">24h Change: {rates.ethereum.change_24h.toFixed(2)}%</p>
+                <p className="text-sm">7d Trend: High: N{getTrendSummary(rates.ethereum.history).high.toFixed(2)}, Low: N{getTrendSummary(rates.ethereum.history).low.toFixed(2)}, Avg: N{getTrendSummary(rates.ethereum.history).avg.toFixed(2)}</p>
+                <a href={`https://wa.me/+2349067099262?text=${encodeURIComponent(`Interested in Ethereum transaction at N${rates.ethereum.price.toFixed(2)}`)}`} target="_blank" className="mt-4 inline-block bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">
+                  Contact for Transaction
+                </a>
+              </div>
+              <div className="glassmorphism p-6 rounded-lg border-2 border-[#2E4057] text-center">
+                <h3 className="body-font text-xl font-semibold">USD Coin (USDC)</h3>
+                <p className="text-2xl">N{rates.usdc.price.toFixed(2)}</p>
+                <p className="text-sm">Last Updated: {rates.usdc.last_updated}</p>
+                <p className="text-sm">24h Change: {rates.usdc.change_24h.toFixed(2)}%</p>
+                <p className="text-sm">7d Trend: High: N{getTrendSummary(rates.usdc.history).high.toFixed(2)}, Low: N{getTrendSummary(rates.usdc.history).low.toFixed(2)}, Avg: N{getTrendSummary(rates.usdc.history).avg.toFixed(2)}</p>
+                <a href={`https://wa.me/+2349067099262?text=${encodeURIComponent(`Interested in USD Coin transaction at N${rates.usdc.price.toFixed(2)}`)}`} target="_blank" className="mt-4 inline-block bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">
+                  Contact for Transaction
+                </a>
+              </div>
+              <div className="glassmorphism p-6 rounded-lg border-2 border-[#2E4057] text-center">
+                <h3 className="body-font text-xl font-semibold">Tether (USDT)</h3>
+                <p className="text-2xl">N{rates.usdt.price.toFixed(2)}</p>
+                <p className="text-sm">Last Updated: {rates.usdt.last_updated}</p>
+                <p className="text-sm">24h Change: {rates.usdt.change_24h.toFixed(2)}%</p>
+                <p className="text-sm">7d Trend: High: N{getTrendSummary(rates.usdt.history).high.toFixed(2)}, Low: N{getTrendSummary(rates.usdt.history).low.toFixed(2)}, Avg: N{getTrendSummary(rates.usdt.history).avg.toFixed(2)}</p>
+                <a href={`https://wa.me/+2349067099262?text=${encodeURIComponent(`Interested in Tether transaction at N${rates.usdt.price.toFixed(2)}`)}`} target="_blank" className="mt-4 inline-block bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]">
+                  Contact for Transaction
+                </a>
+              </div>
+            </div>
+            <div className="chart-container mt-8">
+              <canvas ref={chartRef} id="priceChart" style={{ height: '300px' }}></canvas>
+            </div>
+            <div className="mt-6 text-center">
+              <input
+                type="number"
+                value={alertThreshold}
+                onChange={(e) => setAlertThreshold(e.target.value)}
+                placeholder="Set Bitcoin alert threshold (NGN)"
+                className="p-2 border rounded text-[#2E4057] w-full md:w-1/3"
+              />
+              <button
+                onClick={handleRefresh}
+                className="ml-4 bg-[#E74C3C] text-[#F5F6F5] px-4 py-2 rounded hover:bg-[#C0392B]"
+              >
+                Refresh Rates
+              </button>
+            </div>
+            <div className="mt-6 text-center">
+              <a href={`https://www.instagram.com/sharing/?url=${encodeURIComponent(window.location.href)}`} target="_blank" className="mr-4 text-[#E74C3C] hover:underline">
+                Share on Instagram
+              </a>
+              <a href={`https://wa.me/?text=${encodeURIComponent('Check out the latest rates on Pep\'Jo Streams: ' + window.location.href)}`} target="_blank" className="text-[#E74C3C] hover:underline">
+                Share on WhatsApp
+              </a>
+            </div>
+            <div className="mt-12 p-6 bg-[#E0E7FF] rounded-lg">
+              <h3 className="text-2xl font-bold mb-4 text-[#2E4057]">💡 Pro Tips for Smart Trading</h3>
+              <ul className="list-disc pl-6 text-[#2E4057] space-y-2 body-font">
+                <li>Always double-check wallet addresses before sending crypto.</li>
+                <li>Monitor 24-hour and 7-day trends before buying or selling.</li>
+                <li>Use two-factor authentication (2FA) to secure your account.</li>
+                <li>Only trade on trusted networks and platforms like Pep'Jo Streams.</li>
+                <li>Take profits regularly and avoid panic-selling.</li>
+              </ul>
+            </div>
+            {showAlert && (
+              <Notification
+                message={`Alert: Bitcoin price (N${rates.bitcoin.price.toFixed(2)}) exceeded your threshold of ${alertThreshold} NGN!`}
+                onClose={() => setShowAlert(false)}
+              />
+            )}
+          </div>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="bg-[#2E4057] text-[#F5F6F5] py-8 mt-20">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="space-x-4 mb-4">
+            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+            <a href="terms.html" className="hover:text-[#E74C3C]">Terms</a>
+            <a href="privacy.html" className="hover:text-[#E74C3C]">Privacy</a>
+            <a href="contact.html" className="hover:text-[#E74C3C]">Contact</a>
+          </div>
+          <div className="flex justify-center space-x-4 mb-4">
+            <a href="https://instagram.com/pepjostreams" target="_blank" className="hover:text-[#E74C3C]" aria-label="Instagram">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2.2c3.1 0 3.4 0 4.6.1 1.2.1 2.1.3 2.6.6.7.3 1.3.8 1.6 1.6.3.5.5 1.4.6 2.6.1 1.2.1 1.5.1 4.6s0 3.4-.1 4.6c-.1 1.2-.3 2.1-.6 2.6-.3.7-.8 1.3-1.6 1.6-.5.3-1.4.5-2.6.6-1.2.1-1.5.1-4.6.1s-3.4 0-4.6-.1c-1.2-.1-2.1-.3-2.6-.6-.7-.3-1.3-.8-1.6-1.6-.3-.5-.5-1.4-.6-2.6C2.2 15.4 2.2 15.1 2.2 12s0-3.4.1-4.6c.1-1.2.3-2.1.6-2.6.3-.7.8-1.3 1.6-1.6.5-.3 1.4-.5 2.6-.6 1.2-.1 1.5-.1 4.6-.1M12 0C8.7 0 8.3 0 7 .1 5.7.1 4.6.3 3.7.6 2.6 1 1.7 1.7 1.1 2.7.7 3.6.5 4.7.4 6 .3 7.3.3 7.7.3 12s0 4.7.1 6c.1 1.3.3 2.4.6 3.3.4 1 1.1 1.8 2.1 2.3.9.4 2 .6 3.3.7 1.3.1 1.7.1 6 .1s4.7 0 6-.1c1.3-.1 2.4-.3 3.3-.7 1-.5 1.8-1.3 2.3-2.3.4-.9.6-2 .7-3.3.1-1.3.1-1.7.1-6s0-4.7-.1-6c-.1-1.3-.3-2.4-.7-3.3-.5-1-1.3-1.8-2.3-2.3-.9-.4-2-.6-3.3-.7C16.7.1 16.3.1 12 .1 12 0 12 0 12 0z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/+2349067099262" target="_blank" className="hover:text-[#E74C3C]" aria-label="WhatsApp">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.372 0 12c0 2.096.543 4.091 1.58 5.86L0 24l6.26-1.646A11.96 11.96 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.687 17.037c-.253.71-1.43 1.308-1.994 1.384-.514.07-1.152.098-1.849-.13-3.2-1.024-5.269-4.044-5.436-4.233-.168-.188-1.3-1.735-1.3-3.312 0-1.577.84-2.347 1.14-2.664.252-.27.672-.338.891-.338.222 0 .444.002.637.012.204.012.472-.078.738.562.293.706.994 2.44 1.078 2.619.084.178.139.388.028.626-.11.239-.164.388-.326.595-.162.208-.342.465-.488.625-.145.161-.295.342-.126.653.168.31.747 1.225 1.6 1.974 1.102.982 2.034 1.287 2.346 1.438.313.15.492.141.675-.084.183-.226.772-.9.979-1.211.207-.312.42-.258.707-.155.288.103 1.828.863 2.145 1.022.317.158.525.237.604.37.078.133.078.774-.177 1.504z"/>
+              </svg>
+            </a>
+          </div>
+          <p className="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => (
+      <>
+        <Navbar />
+        <InfoBanner />
+        <Hero />
+        <RatesSection />
+        <Footer />
+      </>
+    );
+
+    createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <style>
+    .animate-marquee {
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</html>

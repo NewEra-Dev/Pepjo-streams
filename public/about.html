@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Pep'Jo Streams</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans&display=swap" rel="stylesheet" />
+  <style>
+    .glassmorphism {
+      background: rgba(245, 246, 245, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 0.75rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glassmorphism:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .hero-font { font-family: 'Lato', sans-serif; }
+    .body-font { font-family: 'Open Sans', sans-serif; }
+    .about-section {
+      background: linear-gradient(135deg, #F5F6F5 0%, #E5E7EB 100%);
+      padding: 4rem 1rem;
+      animation: fadeIn 1s ease-in;
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 2rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1rem;
+      height: 1rem;
+      background: #E74C3C;
+      border-radius: 50%;
+    }
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 0.5rem;
+      top: 1rem;
+      bottom: -2rem;
+      width: 2px;
+      background: #2E4057;
+      opacity: 0.3;
+    }
+    .timeline-item:last-child::after {
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 640px) {
+      .navbar-menu { display: none; }
+      .navbar-menu.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: #2E4057;
+      }
+      .hero-font.text-4xl { font-size: 2rem; }
+      .hero-font.text-3xl { font-size: 1.5rem; }
+      .body-font.text-lg { font-size: 1rem; }
+      .about-section { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { createRoot } = ReactDOM;
+
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
+      return (
+        <nav className="fixed w-full bg-[#2E4057] text-[#F5F6F5] shadow-lg z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16 items-center">
+              <div className="flex-shrink-0">
+                <img src="images/logo.png" alt="Pep'Jo Streams Logo" className="h-16 w-auto" />
+              </div>
+              <div className="hidden md:flex space-x-4">
+                <a href="index.html" className="hover:text-[#E74C3C]">Home</a>
+                <a href="rates.html" className="hover:text-[#E74C3C]">Rates</a>
+                <a href="support.html" className="hover:text-[#E74C3C]">Support</a>
+                <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+              </div>
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none p-2 hover:text-[#3498DB]">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className={`md:hidden ${isOpen ? 'active' : ''} navbar-menu`}>
+                <a href="index.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Home</a>
+                <a href="rates.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Rates</a>
+                <a href="support.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">Support</a>
+                <a href="about.html" className="block px-4 py-2 hover:text-[#E74C3C] border-b border-gray-700">About</a>
+              </div>
+              <a href="https://wa.me/+2349067099262" className="hidden md:block bg-[#F5F6F5] text-[#2E4057] px-4 py-2 rounded hover:bg-[#E74C3C] hover:text-[#F5F6F5]">Get Started</a>
+            </div>
+          </div>
+        </nav>
+      );
+    };
+
+    const AboutSection = () => {
+      useEffect(() => window.scrollTo(0, 0), []);
+
+      return (
+        <section className="about-section pt-24">
+          <div className="max-w-5xl mx-auto px-4 space-y-8">
+            <div className="glassmorphism p-6">
+              <h1 className="hero-font text-4xl md:text-5xl font-bold text-[#2E4057] mb-4">Our Story</h1>
+              <img 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                alt="Pep'Jo Streams Founder" 
+                className="w-full h-64 object-cover rounded-lg mb-4"
+              />
+              <p className="body-font text-[#333] text-lg leading-relaxed">
+                Pep'Jo Streams was founded in 2015 by Odunayo Oluwaseyi Joseph, a passionate innovator who envisioned a simpler, safer, and smarter way for everyday people to engage with digital finance. What began as a small initiative has grown into a full-fledged platform where users confidently trade cryptocurrency, redeem gift cards, and explore digital assets—all under one roof.
+              </p>
+            </div>
+
+            <div className="glassmorphism p-6">
+              <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Mission</h2>
+              <p className="body-font text-[#333] text-lg leading-relaxed">
+                Our mission is to empower everyone with easy access to reliable digital trading services. At Pep'Jo Streams, we break down the technical barriers and provide users with the tools and guidance they need to buy, sell, and learn—safely and efficiently.
+              </p>
+            </div>
+
+            <div className="glassmorphism p-6">
+              <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Vision</h2>
+              <p className="body-font text-[#333] text-lg leading-relaxed">
+                We envision a world where digital transactions are second nature—secure, fast, and inclusive. Our long-term goal is to be Africa’s most trusted crypto and gift card trading platform, known for excellence, integrity, and user empowerment.
+              </p>
+            </div>
+
+            <div className="glassmorphism p-6">
+              <h2 className="hero-font text-3xl font-bold text-[#2E4057] mb-4">Our Journey</h2>
+              <div className="timeline">
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2015 - Founded</h3>
+                  <p className="body-font text-[#333] text-base">Launched by Odunayo Oluwaseyi Joseph with a vision for accessible digital trading.</p>
+                </div>
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2018 - First 1,000 Users</h3>
+                  <p className="body-font text-[#333] text-base">Reached 1,000 active traders and expanded to gift card services.</p>
+                </div>
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2021 - N500M Traded</h3>
+                  <p className="body-font text-[#333] text-base">Surpassed N500 million in total traded volume.</p>
+                </div>
+                <div className="timeline-item">
+                  <h3 className="body-font text-lg font-semibold text-[#2E4057] mb-1">2025 - 15,000+ Users</h3>
+                  <p className="body-font text-[#333] text-base">Now serving over 15,000 users with a 98% success rate.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const Footer = () => (
+      <footer className="bg-[#2E4057] text-[#F5F6F5] py-8 mt-20">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="space-x-4 mb-4">
+            <a href="about.html" className="hover:text-[#E74C3C]">About</a>
+            <a href="terms.html" className="hover:text-[#E74C3C]">Terms</a>
+            <a href="privacy.html" className="hover:text-[#E74C3C]">Privacy</a>
+            <a href="contact.html" className="hover:text-[#E74C3C]">Contact</a>
+          </div>
+          <p className="text-sm">© 2025 Pep'Jo Streams. All rights reserved.</p>
+        </div>
+      </footer>
+    );
+
+    const App = () => (
+      <>
+        <Navbar />
+        <AboutSection />
+        <Footer />
+      </>
+    );
+
+    createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
